@@ -7,5 +7,5 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.libNetwork)
+    implementation(Dependencies.libData)
 }

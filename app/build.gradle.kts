@@ -20,10 +20,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildFeatures {
-        dataBinding = true
-    }
-
     buildTypes {
         named("release") {
             isMinifyEnabled = true
@@ -46,11 +42,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    packagingOptions {
-        pickFirst("META-INF/*")
-        exclude("build-data.properties")
-    }
-    //dynamicFeatures += setOf(":features:dynamicfeature")
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
         kotlinOptions {
             // Enable experimental coroutines APIs, including Flow
@@ -58,6 +49,10 @@ android {
             freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
             freeCompilerArgs += "-Xopt-in=kotlin.Experimental"
         }
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -68,6 +63,8 @@ dependencies {
     testImplementation(Dependencies.libUnitTest)
     androidTestImplementation(Dependencies.libAndroidTest)
     kapt(Dependencies.kotlinGradlePlugin)
-    api(project(":domain"))
+    implementation(project(AppConfig.Modules.CoreUI))
+    implementation(project(AppConfig.Features.FeatureFirst))
+    implementation(project(AppConfig.Features.FeatureSecond))
 }
 

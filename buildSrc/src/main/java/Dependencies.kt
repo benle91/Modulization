@@ -42,8 +42,21 @@ object Dependencies {
     private const val retrofitConverterGson = "com.squareup.retrofit2:converter-gson:${Versions.retrofitVersion}"
     private const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10"
 
+    /**
+     * room
+     * */
+    private const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
+    private const val roomKTX = "androidx.room:room-ktx:${Versions.roomVersion}"
+    // annotationProcessor
+    private const val annotationProcessorRoom = "androidx.room:room-compiler:${Versions.roomVersion}"
+    // kapt
+    private const val kaptRoom = "androidx.room:room-compiler:${Versions.roomVersion}"
+
+    private const val playCore = "com.google.android.play:core:${Versions.playCore}"
+    private const val playCoreKtx = "com.google.android.play:core-ktx:${Versions.playCore}"
+
     val libDefault = listOf<String>(
-        coreKTX, appcompat, koin
+        coreKTX, appcompat, koin, playCore, playCoreKtx
     )
 
     val libUI = listOf<String>(
@@ -53,7 +66,10 @@ object Dependencies {
     val libUnitTest = listOf<String>(junit)
     val libAndroidTest = listOf<String>(androidJunit, androidEspressoCore)
     val libNetwork = listOf<String>(retrofit, retrofitConverterGson, loggingInterceptor)
-
+    val libRoom = listOf<String>(roomRuntime, roomKTX)
+    val libKapt = listOf<String>(kaptRoom)
+    val libAnnotation = listOf<String>(annotationProcessorRoom)
+    val libData = listOf<String>(retrofitConverterGson, roomRuntime)
 }
 
 //util functions for adding the different type dependencies from build.gradle file

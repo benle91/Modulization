@@ -52,6 +52,9 @@ class LibraryPlugin : Plugin<Project> {
                     sourceSets {
                         getByName("main").java.setSrcDirs(sources)
                     }
+                    buildFeatures {
+                        viewBinding = true
+                    }
                 }
             }
             dependencies {

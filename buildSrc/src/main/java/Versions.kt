@@ -12,6 +12,8 @@ object Versions {
     const val retrofitVersion = "2.9.0"
     const val firebaseBom = "31.1.1"
     const val ktlint = "0.36.0"
+    const val roomVersion = "2.5.0"
+    const val playCore = "1.8.0"
 
     /**
      * for unit test

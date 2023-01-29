@@ -7,6 +7,6 @@ android {
 }
 
 dependencies {
-    api(project(":data"))
+    api(project(AppConfig.Modules.Data))
     implementation(Dependencies.libNetwork)
 }

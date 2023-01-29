@@ -11,6 +11,10 @@ repositories {
 
 gradlePlugin {
     plugins {
+        register("dynamic-feature-plugin") {
+            id = "dynamic-feature-plugin"
+            implementationClass = "DynamicFeaturePlugin"
+        }
         register("library-plugin") {
             id = "library-plugin"
             implementationClass = "LibraryPlugin"

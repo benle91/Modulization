@@ -9,7 +9,7 @@ object AppConfig {
 
     object PluginId {
         const val libraryPlugin = "library-plugin"
-        const val minify = "minify"
+        const val dynamicFeaturePlugin = "dynamic-feature-plugin"
     }
 
     object PluginsDependencies {
@@ -26,5 +26,19 @@ object AppConfig {
 
     object BuildTypes {
         const val staging = "debug"
+    }
+
+    object Features {
+        const val FeatureFirst = ":features:first"
+        const val FeatureSecond = ":features:second"
+    }
+
+    object Modules {
+        const val APP = ":app"
+        const val Data = ":data"
+        const val NetWork = ":core:network"
+        const val Room = ":core:room"
+        const val Domain = ":domain"
+        const val CoreUI = ":core:ui"
     }
 }

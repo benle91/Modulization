@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools">
+
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".modulization.AppApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Modulization"
-        tools:targetApi="31"
-        android:name=".modulization.AppApplication">
+        tools:targetApi="31">
         <activity
             android:name=".modulization.MainActivity"
             android:exported="true">
