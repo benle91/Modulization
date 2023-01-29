@@ -63,6 +63,9 @@ class DynamicFeaturePlugin: Plugin<Project> {
                 for(dp in Dependencies.libDefault) {
                     add("implementation", dp)
                 }
+                for(dp in Dependencies.libUI) {
+                    add("implementation", dp)
+                }
                 //add default android test dependencies
                 for(dp in Dependencies.libAndroidTest) {
                     add("androidTestImplementation", dp)

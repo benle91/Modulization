@@ -1,19 +1,20 @@
 package com.android.modulization
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.android.R
-import com.android.modulization.ui.main.MainFragment
+import com.android.databinding.ActivityMainBinding
+import com.android.modulization.ui.BaseBindingActivity
 
-class MainActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
-                .commitNow()
-        }
+class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
+    override fun onViewModelInit() {
     }
+
+    override fun ActivityMainBinding.onViewBindingCreated() {
+
+    }
+
+
 }

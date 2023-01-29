@@ -1,6 +1,8 @@
 package com.android.modulization.ui.main
 
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import com.android.R
 import com.android.databinding.FragmentMainBinding
 import com.android.modulization.ui.BaseBindingFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -14,7 +16,7 @@ class MainFragment : BaseBindingFragment<FragmentMainBinding>() {
     private val viewModel: MainViewModel by viewModel()
     override fun FragmentMainBinding.onViewBindingCreated() {
         message.setOnClickListener {
-            viewModel.getItemsToCall()
+            navigate(R.id.action_mainFragment_to_firstFragment)
         }
     }
 
