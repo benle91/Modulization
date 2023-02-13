@@ -43,6 +43,15 @@ class PrefRepository constructor(private val sharedPreferences: SharedPreference
         }
     }
 
+    fun putString(vararg pairs: Pair<String, String?>) {
+        sharedPreferences.edit().apply {
+            pairs.forEach { pair ->
+                putString(pair.first, pair.second)
+            }
+            apply()
+        }
+    }
+
     fun getString(@PreferenceKey key: String) = sharedPreferences.getString(key, "")
 
 }

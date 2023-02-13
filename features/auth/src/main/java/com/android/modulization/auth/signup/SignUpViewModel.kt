@@ -60,7 +60,7 @@ class SignUpViewModel constructor(
                 isValid = false
                 FormFieldState.MUST_BE_REQUIRE
             }
-            pass.length in 6..18 -> {
+            pass.length !in 6..18 -> {
                 isValid = false
                 FormFieldState.PASSWORD_NOT_ENOUGH_LENGTH
             }

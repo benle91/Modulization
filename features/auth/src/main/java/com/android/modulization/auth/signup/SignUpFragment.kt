@@ -56,12 +56,26 @@ class SignUpFragment : BaseBindingFragment<FragmentSignUpBinding>() {
             ldValidPassword.observe(viewLifecycleOwner) { state ->
                 binding.tvErrorPassword.visibility = when (state) {
                     FormFieldState.OK -> View.INVISIBLE
-                    else -> View.VISIBLE
+                    FormFieldState.PASSWORD_NOT_ENOUGH_LENGTH -> {
+                        binding.tvErrorPassword.text = "The password must be between 6-18 characters."
+                        View.VISIBLE
+                    }
+                    FormFieldState.PASSWORD_NOT_ENOUGH_LENGTH -> {
+                        binding.tvErrorPassword.text = "The password must contain at least one digit, one special character, and one letter."
+                        View.VISIBLE
+                    }
+                    else -> {
+                        binding.tvErrorPassword.text = "The password is required"
+                        View.VISIBLE
+                    }
                 }
             }
             ldAccountResponse.observe(viewLifecycleOwner) { response ->
                 lifecycleScope.launch {
-                    mSharedPreference.putString(PreferenceKey.ACCESS_TOKEN, response.token)
+                    mSharedPreference.putString(PreferenceKey.ACCESS_TOKEN to response.token,
+                        PreferenceKey.ACCOUNT_EMAIL to response.email,
+                        PreferenceKey.DISPLAY_NAME to response.displayName
+                    )
                     mScreenEventViewModel.navigateToScreen(ScreenEventState.NAVIGATE_TO_ROOT)
                 }
             }
@@ -96,6 +110,10 @@ class SignUpFragment : BaseBindingFragment<FragmentSignUpBinding>() {
         }
         tvHaveAccount2GoSignIn.onSingleClick {
             findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
+        }
+        btSignUp.isEnabled = cbAuthPolicy.isChecked
+        cbAuthPolicy.setOnCheckedChangeListener { _, isChecked ->
+            btSignUp.isEnabled = isChecked
         }
     }
 

@@ -57,7 +57,8 @@
             android:autofillHints="name"
             android:background="@drawable/bg_edit_form"
             android:inputType="textCapWords"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:paddingHorizontal="@dimen/space_small"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvErrorFirstName"
@@ -88,7 +89,8 @@
             android:autofillHints="username"
             android:background="@drawable/bg_edit_form"
             android:inputType="textCapWords"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:paddingHorizontal="@dimen/space_small"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvErrorLastName"
@@ -119,7 +121,8 @@
             android:autofillHints="emailAddress"
             android:background="@drawable/bg_edit_form"
             android:inputType="textEmailAddress"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:paddingHorizontal="@dimen/space_small"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvErrorEmail"
@@ -150,7 +153,8 @@
             android:autofillHints="password"
             android:background="@drawable/bg_edit_form"
             android:inputType="textPassword"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:paddingHorizontal="@dimen/space_small"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvErrorPassword"

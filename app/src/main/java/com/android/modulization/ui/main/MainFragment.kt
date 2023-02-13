@@ -1,5 +1,6 @@
 package com.android.modulization.ui.main
 
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -27,6 +28,13 @@ class MainFragment : BaseBindingFragment<FragmentMainBinding>() {
             navigate2Auth()
             return
         }
+        mSharedPreference.getString(PreferenceKey.DISPLAY_NAME)?.let {  displayName ->
+            navView.getHeaderView(0).findViewById<AppCompatTextView>(R.id.tvDisplayName).text = displayName
+        }
+        mSharedPreference.getString(PreferenceKey.ACCOUNT_EMAIL)?.let {  email ->
+            navView.getHeaderView(0).findViewById<AppCompatTextView>(R.id.tvEmail).text = email
+        }
+
         navView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_logout -> {

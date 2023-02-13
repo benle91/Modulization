@@ -1,6 +1,7 @@
 package com.android.modulization.auth.signin
 
 import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -49,6 +50,16 @@ class SignInFragment: BaseBindingFragment<FragmentSignInBinding>() {
             }
             ldAccountResponse.observe(viewLifecycleOwner) { response ->
                 lifecycleScope.launch {
+                    if (binding.cbRememberMe.isChecked) {
+                        mSharedPreference.putString(
+                            PreferenceKey.AUTH_REMEMBER_EMAIL,
+                            binding.edEmail.text?.trim().toString()
+                        )
+                    }
+                    mSharedPreference.putString(PreferenceKey.ACCESS_TOKEN to response.token,
+                        PreferenceKey.ACCOUNT_EMAIL to response.email,
+                        PreferenceKey.DISPLAY_NAME to response.displayName
+                    )
                     mSharedPreference.putString(PreferenceKey.ACCESS_TOKEN, response.token)
                     mScreenEventViewModel.navigateToScreen(ScreenEventState.NAVIGATE_TO_ROOT)
                 }
@@ -74,6 +85,9 @@ class SignInFragment: BaseBindingFragment<FragmentSignInBinding>() {
         }
         tvNewOnOurPlatform.onSingleClick {
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+        }
+        mSharedPreference.getString(PreferenceKey.AUTH_REMEMBER_EMAIL)?.let { email ->
+            edEmail.setText(email, TextView.BufferType.NORMAL)
         }
     }
 
