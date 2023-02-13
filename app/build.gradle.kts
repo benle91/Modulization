@@ -66,5 +66,6 @@ dependencies {
     implementation(project(AppConfig.Modules.CoreUI))
     implementation(project(AppConfig.Features.FeatureFirst))
     implementation(project(AppConfig.Features.FeatureSecond))
+    implementation(project(AppConfig.Features.FeatureAuth))
 }
 

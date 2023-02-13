@@ -14,6 +14,10 @@ object Versions {
     const val ktlint = "0.36.0"
     const val roomVersion = "2.5.0"
     const val playCore = "1.8.0"
+    const val lifecycleLiveDataKTX = "2.4.0"
+
+    //https://developer.android.com/topic/security/data
+    const val versionPreference = "2.4.0"
 
     /**
      * for unit test

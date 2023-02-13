@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Modulization</string>
+    <string name="title_dynamicfeature">Dynamicfeature</string>
+    <string name="title_first">FeatureFirst</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_auth">Module Title</string>
+    <string name="txt_auth_adventure_starts_here">Adventure starts here</string>
+    <string name="txt_auth_make_your_app_management_easy">Make your app management easy and fun!</string>
+    <string name="txt_auth_first_name">First name</string>
+    <string name="txt_auth_first_name_required">First name is required</string>
+    <string name="txt_auth_last_name">Last name</string>
+    <string name="txt_auth_last_name_required">Last name is required</string>
+    <string name="txt_auth_email">Email</string>
+    <string name="txt_auth_email_required">Email is required</string>
+    <string name="txt_auth_password">Password</string>
+    <string name="txt_auth_password_required">Password is required</string>
+    <string name="cb_auth_agree_to_policy"><![CDATA[I agree to <font color=\"#7367F0\">privacy policy & terms</font>]]></string>
+    <string name="btn_auth_sign_up">Sign Up</string>
+    <string name="txt_auth_already_have_an_account"><![CDATA[Already have an account? <font color=\"#7367F0\">Sign in instead</font>]]></string>
+    <string name="txt_auth_new_on_our_platform"><![CDATA[New on our platform? <font color=\"#7367F0\">Create an account</font>]]></string>
+    <string name="txt_auth_welcome_to_entrance">Welcome to Entrance Test Interview!</string>
+    <string name="txt_auth_please_sign_in_your_account">Please sign-in to your account and start the adventure</string>
+    <string name="txt_auth_remember_me">Remember me</string>
+    <string name="btn_auth_login">Login</string>
+</resources>

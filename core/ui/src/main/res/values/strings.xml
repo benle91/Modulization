@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Modulization</string>
+    <string name="title_dynamicfeature">Dynamicfeature</string>
+    <string name="title_first">FeatureFirst</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+</resources>

@@ -35,3 +35,8 @@ fun <T> Flow<UseCaseResult<T>>.onSuccess(block: (T) -> Unit) = onEach {
         block(it.data)
     }
 }
+fun <T> Flow<UseCaseResult<T>>.onThrowable(block: (Throwable) -> Unit) = onEach {
+    if (it is UseCaseResult.ErrorThrowable) {
+        block(it.error)
+    }
+}

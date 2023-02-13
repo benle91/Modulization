@@ -8,4 +8,5 @@ android {
 
 dependencies {
     implementation(Dependencies.libData)
+    implementation(Dependencies.libPreference)
 }

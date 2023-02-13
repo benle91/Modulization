@@ -23,6 +23,9 @@ object Dependencies {
     private const val navigationUIKTX =
         "androidx.navigation:navigation-ui-ktx:${Versions.navigationUIKTX}"
 
+    private const val lifecycleLiveDataKTX =
+        "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycleLiveDataKTX}"
+
     /**
      * lib test
      * */
@@ -55,12 +58,19 @@ object Dependencies {
     private const val playCore = "com.google.android.play:core:${Versions.playCore}"
     private const val playCoreKtx = "com.google.android.play:core-ktx:${Versions.playCore}"
 
+    /**
+     * encrypt share preferences
+     * */
+    private const val securityCryptoKTX = "androidx.security:security-crypto-ktx:1.1.0-alpha04"
+    private const val securityIdentityCredential = "androidx.security:security-identity-credential:1.0.0-alpha03"
+    private const val securityAppAuthenticator = "androidx.security:security-app-authenticator:1.0.0-alpha02"
+
     val libDefault = listOf<String>(
         coreKTX, appcompat, koin, playCore, playCoreKtx
     )
 
     val libUI = listOf<String>(
-        koinNavigation, material, constraintlayout, navigationFragmentKTX, navigationUIKTX
+        koinNavigation, material, constraintlayout, navigationFragmentKTX, navigationUIKTX, lifecycleLiveDataKTX
     )
 
     val libUnitTest = listOf<String>(junit)
@@ -70,6 +80,7 @@ object Dependencies {
     val libKapt = listOf<String>(kaptRoom)
     val libAnnotation = listOf<String>(annotationProcessorRoom)
     val libData = listOf<String>(retrofitConverterGson, roomRuntime)
+    val libPreference = listOf<String>(securityCryptoKTX, securityIdentityCredential, securityAppAuthenticator)
 }
 
 //util functions for adding the different type dependencies from build.gradle file

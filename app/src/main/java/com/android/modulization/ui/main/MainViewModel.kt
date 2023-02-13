@@ -3,18 +3,20 @@ package com.android.modulization.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.modulization.data.remote.response.ItemCallResponse
 import com.android.modulization.domain.onSuccess
-import com.android.modulization.domain.usecases.GetItemsToCallUseCase
+import com.android.modulization.domain.onThrowable
+import com.android.modulization.domain.usecases.LogoutUseCase
 import kotlinx.coroutines.flow.launchIn
 
-class MainViewModel constructor(private val useCase: GetItemsToCallUseCase) : ViewModel() {
+class MainViewModel constructor(private val logoutUseCase: LogoutUseCase) : ViewModel() {
 
-    val ldListResponse = MutableLiveData<List<ItemCallResponse>>()
+    val ldLogoutResult = MutableLiveData<Boolean>()
 
-    fun getItemsToCall() {
-        useCase("").onSuccess {
-            ldListResponse.postValue(it)
+    fun logout() {
+        logoutUseCase("").onSuccess {
+            ldLogoutResult.value = true
+        }.onThrowable {
+            ldLogoutResult.value = false
         }.launchIn(viewModelScope)
     }
 

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/img_banner_sign_in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:layout_marginTop="@dimen/space_medium"
+            android:text="@string/txt_auth_welcome_to_entrance"
+            android:textColor="@color/colorText"
+            android:textSize="18sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:layout_marginTop="@dimen/space_small"
+            android:text="@string/txt_auth_please_sign_in_your_account"
+            android:textColor="@color/colorDescription"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:text="@string/txt_auth_email"
+            android:textColor="@color/colorDescription"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edEmail"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_height_edit_button"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:layout_marginTop="@dimen/space_xx_small"
+            android:autofillHints="emailAddress"
+            android:background="@drawable/bg_edit_form"
+            android:inputType="textEmailAddress"
+            android:singleLine="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvErrorEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:text="@string/txt_auth_email_required"
+            android:textColor="@color/colorError"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:text="@string/txt_auth_password"
+            android:textColor="@color/colorDescription"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edPassword"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_height_edit_button"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:layout_marginTop="@dimen/space_xx_small"
+            android:autofillHints="password"
+            android:background="@drawable/bg_edit_form"
+            android:inputType="textPassword"
+            android:singleLine="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvErrorPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:text="@string/txt_auth_password_required"
+            android:textColor="@color/colorError"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbAuthPolicy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:layout_marginTop="@dimen/space_medium"
+            android:gravity="center_vertical"
+            android:text="@string/txt_auth_remember_me"
+            android:textColor="@color/colorDescription"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_height_edit_button"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:layout_marginTop="@dimen/space_small"
+            android:background="@drawable/btn_submit"
+            android:gravity="center"
+            android:text="@string/btn_auth_login"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNewOnOurPlatform"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:layout_marginVertical="@dimen/space_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/txt_auth_new_on_our_platform"
+            android:textColor="@color/colorDescription"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</ScrollView>

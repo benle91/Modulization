@@ -7,7 +7,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val networkModule = module {
-    factory { RetrofitClient.getInstance() }
+    factory { RetrofitClient.getInstance(get()) }
     single { get<Retrofit>().create(FeatureService::class.java) }
 }
 

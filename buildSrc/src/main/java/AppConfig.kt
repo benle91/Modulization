@@ -31,6 +31,7 @@ object AppConfig {
     object Features {
         const val FeatureFirst = ":features:first"
         const val FeatureSecond = ":features:second"
+        const val FeatureAuth = ":features:auth"
     }
 
     object Modules {

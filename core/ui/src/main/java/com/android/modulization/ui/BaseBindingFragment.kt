@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,21 @@ abstract class BaseBindingFragment<_ViewDataBinding : ViewBinding> : Fragment(),
 
     override val navController: NavController
         get() = findNavController()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (!onCustomBackPresses()) {
+                        this.isEnabled = false
+                        activity?.onBackPressed()
+                    }
+                }
+
+            })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +62,9 @@ abstract class BaseBindingFragment<_ViewDataBinding : ViewBinding> : Fragment(),
     abstract fun _ViewDataBinding.onViewBindingCreated()
     abstract fun onViewModelInit()
 
+    protected open fun onCustomBackPresses(): Boolean {
+        return false
+    }
 
     override fun onDestroyView() {
         _binding = null
