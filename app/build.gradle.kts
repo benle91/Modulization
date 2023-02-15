@@ -7,7 +7,6 @@ plugins {
 println("This is executed during the configuration phase.")
 
 android {
-    namespace = AppConfig.namespace
     compileSdkVersion(AppConfig.compileSdk)
 
     defaultConfig {

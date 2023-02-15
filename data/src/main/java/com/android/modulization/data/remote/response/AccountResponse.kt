@@ -2,6 +2,7 @@ package com.android.modulization.data.remote.response
 
 
 import com.google.gson.annotations.SerializedName
+import java.util.Date
 
 data class AccountResponse(
     @SerializedName("admin")
@@ -23,7 +24,7 @@ data class AccountResponse(
     @SerializedName("token")
     val token: String? = null,
     @SerializedName("updatedAt")
-    val updatedAt: String? = null,
+    val updatedAt: Date? = null,
     @SerializedName("__v")
     val v: Int? = null
 )

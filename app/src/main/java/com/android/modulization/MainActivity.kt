@@ -4,11 +4,11 @@ import android.app.ProgressDialog
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.navigation.findNavController
-import com.android.R
-import com.android.databinding.ActivityMainBinding
 import com.android.modulization.ui.BaseBindingActivity
 import com.android.modulization.ui.ScreenEventState
 import com.android.modulization.ui.ScreenEventViewModel
+import com.android.modulizationt.R
+import com.android.modulizationt.databinding.ActivityMainBinding
 
 class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
 

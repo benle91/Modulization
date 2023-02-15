@@ -1,10 +1,10 @@
 package com.android.modulization.ui.home
 
 import androidx.fragment.app.activityViewModels
-import com.android.databinding.FragmentHomeBinding
 import com.android.modulization.ui.BaseBindingFragment
 import com.android.modulization.ui.DrawerEventViewModel
 import com.android.modulization.ui.ScreenEventViewModel
+import com.android.modulizationt.databinding.FragmentHomeBinding
 
 /**
  *Created by Hien on 2/12/2023.

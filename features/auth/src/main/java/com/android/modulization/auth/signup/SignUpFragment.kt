@@ -5,8 +5,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.android.R
-import com.android.databinding.FragmentSignUpBinding
+import com.android.modulization.auth.R
+import com.android.modulization.auth.databinding.FragmentSignUpBinding
 import com.android.modulization.data.local.models.FormFieldState
 import com.android.modulization.data.preference.PrefRepository
 import com.android.modulization.data.preference.PreferenceKey

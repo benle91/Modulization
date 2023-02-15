@@ -3,7 +3,6 @@ plugins {
 }
 
 android {
-    namespace = AppConfig.namespace
 }
 
 dependencies {

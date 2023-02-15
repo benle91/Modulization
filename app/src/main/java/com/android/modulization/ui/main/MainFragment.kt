@@ -4,13 +4,13 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.android.R
-import com.android.databinding.FragmentMainBinding
 import com.android.modulization.data.preference.PrefRepository
 import com.android.modulization.data.preference.PreferenceKey
 import com.android.modulization.ui.BaseBindingFragment
 import com.android.modulization.ui.DrawerEventViewModel
 import com.android.modulization.ui.ScreenEventViewModel
+import com.android.modulizationt.R
+import com.android.modulizationt.databinding.FragmentMainBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,10 +28,11 @@ class MainFragment : BaseBindingFragment<FragmentMainBinding>() {
             navigate2Auth()
             return
         }
-        mSharedPreference.getString(PreferenceKey.DISPLAY_NAME)?.let {  displayName ->
-            navView.getHeaderView(0).findViewById<AppCompatTextView>(R.id.tvDisplayName).text = displayName
+        mSharedPreference.getString(PreferenceKey.DISPLAY_NAME)?.let { displayName ->
+            navView.getHeaderView(0).findViewById<AppCompatTextView>(R.id.tvDisplayName).text =
+                displayName
         }
-        mSharedPreference.getString(PreferenceKey.ACCOUNT_EMAIL)?.let {  email ->
+        mSharedPreference.getString(PreferenceKey.ACCOUNT_EMAIL)?.let { email ->
             navView.getHeaderView(0).findViewById<AppCompatTextView>(R.id.tvEmail).text = email
         }
 

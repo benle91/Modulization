@@ -18,5 +18,6 @@ annotation class PreferenceKey {
         const val AUTH_REMEMBER_EMAIL = "key_auth_remember_email"
         const val ACCOUNT_EMAIL = "key_account_email"
         const val DISPLAY_NAME = "key_display_name"
+        const val TOKEN_EXPIRED_AT = "key_display_name"
     }
 }
