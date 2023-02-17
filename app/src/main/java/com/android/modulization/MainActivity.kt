@@ -7,8 +7,8 @@ import androidx.navigation.findNavController
 import com.android.modulization.ui.BaseBindingActivity
 import com.android.modulization.ui.ScreenEventState
 import com.android.modulization.ui.ScreenEventViewModel
-import com.android.modulizationt.R
-import com.android.modulizationt.databinding.ActivityMainBinding
+import com.android.modulization.R
+import com.android.modulization.databinding.ActivityMainBinding
 
 class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
 
