@@ -3,6 +3,7 @@ plugins {
     id(AppConfig.PluginsDependencies.kotlinAndroid)
     id(AppConfig.PluginsDependencies.kotlinKapt)
     id(AppConfig.PluginsDependencies.paranoid)
+    id(AppConfig.PluginsDependencies.googleServices)
 }
 println("This is executed during the configuration phase.")
 
@@ -10,17 +11,26 @@ android {
     compileSdkVersion(AppConfig.compileSdk)
 
     defaultConfig {
-        applicationId = "com.android"
+        applicationId = "com.android.modulization"
         minSdkVersion(AppConfig.minSdk)
         targetSdkVersion(AppConfig.targetSdk)
-        versionCode = 1
+        versionCode = (System.currentTimeMillis() / 60000).toInt()
         versionName = "1.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        named(AppConfig.BuildTypes.debug) {
+            keyAlias = AppConfig.SigningConfigsDebug.keyAlias
+            keyPassword = AppConfig.SigningConfigsDebug.keyPassword
+            storeFile = rootProject.file(AppConfig.SigningConfigsDebug.storeFile)
+            storePassword = AppConfig.SigningConfigsDebug.storePassword
+        }
+    }
+
     buildTypes {
-        named("release") {
+        named(AppConfig.BuildTypes.release) {
             isMinifyEnabled = true
             setProguardFiles(
                 listOf(
@@ -29,7 +39,8 @@ android {
                 )
             )
         }
-        named("debug") {
+        named(AppConfig.BuildTypes.debug) {
+            signingConfig = signingConfigs.getByName(AppConfig.BuildTypes.debug)
             isMinifyEnabled = false
         }
     }
@@ -57,6 +68,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(platform("com.google.firebase:firebase-bom:31.2.2"))
     implementation(Dependencies.libDefault)
     implementation(Dependencies.libUI)
     testImplementation(Dependencies.libUnitTest)

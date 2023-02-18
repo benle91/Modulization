@@ -1,0 +1,43 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :testAllUniTest do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :buildAndUploadToFirebaseDistribute do
+    buildBuild
+    release = firebase_app_distribution(
+                  app: "1:174866293063:android:0419baf7d8a02a04616c62",
+                  testers: "hienle.developer@gmail.com",
+                  release_notes: "Lots of amazing new features to test out!",
+                  service_credentials_file: "fastlane/modulization-e23e7-firebase-adminsdk-3cs4y-3d917176fb.json"
+              )
+  end
+
+  desc "Deploy to distribute application"
+      lane :buildBuild do
+      gradle(
+              task: "assemble",
+              build_type: "Debug"
+          )
+      end
+
+end

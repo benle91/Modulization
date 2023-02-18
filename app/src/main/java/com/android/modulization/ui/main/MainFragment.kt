@@ -9,8 +9,8 @@ import com.android.modulization.data.preference.PreferenceKey
 import com.android.modulization.ui.BaseBindingFragment
 import com.android.modulization.ui.DrawerEventViewModel
 import com.android.modulization.ui.ScreenEventViewModel
-import com.android.modulizationt.R
-import com.android.modulizationt.databinding.FragmentMainBinding
+import com.android.modulization.R
+import com.android.modulization.databinding.FragmentMainBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

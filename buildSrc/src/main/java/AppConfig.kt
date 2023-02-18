@@ -25,7 +25,8 @@ object AppConfig {
     }
 
     object BuildTypes {
-        const val staging = "debug"
+        const val debug = "debug"
+        const val release = "release"
     }
 
     object Features {
@@ -42,4 +43,19 @@ object AppConfig {
         const val Domain = ":domain"
         const val CoreUI = ":core:ui"
     }
+
+    object SigningConfigsDebug {
+        const val keyAlias = "key_debug"
+        const val keyPassword = "123456"
+        const val storeFile = "debugKeyStore.jks"
+        const val storePassword = "123456"
+    }
+
+    object SigningConfigsRelease {
+        const val keyAlias = ""
+        const val keyPassword = ""
+        const val storeFile = ""
+        const val storePassword = ""
+    }
+
 }

@@ -32,7 +32,12 @@ class LibraryPlugin : Plugin<Project> {
                     }
 
                     buildTypes {
-                        getByName(AppConfig.BuildTypes.staging) {}
+                        getByName(AppConfig.BuildTypes.debug) {
+                            isMinifyEnabled = false
+                        }
+                        getByName(AppConfig.BuildTypes.release) {
+                            isMinifyEnabled = true
+                        }
                     }
 
                     compileOptions {
