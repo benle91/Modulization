@@ -108,17 +108,4 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       # Manual build staging
-      - SUBMIT_STAGING:
-          type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
-          filters:
-            branches:
-              only:
-                - /feature\/.*/
-                - /release.*/
-                - staging
-                - develop
-                - master
-                - /fix\/.*/
-      - staging_distribution:
-          requires:
-            - SUBMIT_STAGING
+      - *staging_distribution
