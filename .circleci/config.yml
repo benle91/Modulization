@@ -104,21 +104,19 @@ jobs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  version: 2
   sample:
-    workflow:
-      jobs:
-        - SUBMIT_STAGING:
-            type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
-            filters:
-              branches:
-                only:
-                  - /feature\/.*/
-                  - /release.*/
-                  - staging
-                  - develop
-                  - /fix\/.*/
-                  - master
+    jobs:
+      - SUBMIT_STAGING:
+          type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
+          filters:
+            branches:
+              only:
+                - /feature\/.*/
+                - /release.*/
+                - staging
+                - develop
+                - /fix\/.*/
+                - master
         - staging_distribution:
             requires:
               - SUBMIT_STAGING
