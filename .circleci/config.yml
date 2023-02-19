@@ -57,6 +57,9 @@ jobs:
 
       # And finally run the release build
       - run:
+            name: chmod permissions
+            command: chmod +x ./gradlew
+      - run:
           name: Assemble debug build
           command: |
             ./gradlew assembleDebug
