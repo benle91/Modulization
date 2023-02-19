@@ -86,6 +86,14 @@ references:
       name: chmod permissions
       command: chmod +x ./gradlew
 
+  # ---------------------------------------------------------------------------------------------------------------------
+  # Chmod Permission Gradlew
+  # ---------------------------------------------------------------------------------------------------------------------
+  fastlane_env: &fastlane_env
+    run:
+      name: setup fastlane
+      command: fastlane env
+
 jobs:
   staging_distribution:
     <<: *android_config
@@ -94,7 +102,8 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-#      - *gradlew_permission
+      - *gradlew_permission
+      - *fastlane_env
 #      - *restore_gradle_cache
 #      - *restore_gems_cache
 #      - *android_dependencies
