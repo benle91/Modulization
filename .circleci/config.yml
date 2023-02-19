@@ -107,7 +107,7 @@ jobs:
       - ruby/install:
           version: '3.0.1'
       - *ruby_dependencies
-#      - *gradlew_permission
+      - *gradlew_permission
 #      - *fastlane_env
 ##      - *restore_gradle_cache
 ##      - *restore_gems_cache
