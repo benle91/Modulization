@@ -79,7 +79,7 @@ references:
       command: |
         echo $BUILD_STAGING_CREDENTIAL | base64 -d | tee fastlane/modulization-e23e7-firebase-adminsdk-3cs4y-3d917176fb.json >/dev/null
 
-  staging_distribution:
+  staging_distribution: &staging_distribution
     <<: *android_config
     # These next lines define the Android machine image executor.
     # See: https://circleci.com/docs/2.0/executor-types/
