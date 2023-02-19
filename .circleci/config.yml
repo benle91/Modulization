@@ -15,7 +15,7 @@ references:
   # Workspaces represent the spaces we work on & are useful for sharing data between jobs.
   # Create a workspace with the ~/code directory.
   workspace:
-    - &workspace ~/modulization
+    - &workspace ~/Modulization
     # Docker Image Configs
   android_config: &android_config
       working_directory: *workspace
@@ -93,16 +93,16 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-    - *restore_gradle_cache
-    - *restore_gems_cache
-    - *android_dependencies
-    - run: bundle install
-    - run: bundle clean --force
-    - *ruby_dependencies
-    - *save_gradle_cache
-    - *save_gems_cache
-    - *decode_build_staging_credential
-    - run:
+      - *restore_gradle_cache
+      - *restore_gems_cache
+      - *android_dependencies
+      - run: bundle install
+      - run: bundle clean --force
+      - *ruby_dependencies
+      - *save_gradle_cache
+      - *save_gems_cache
+      - *decode_build_staging_credential
+      - run:
           name: Deploy latest Staging build to Firebase App Distribution
           command: bundle exec fastlane buildAndUploadToFirebaseDistribute
           no_output_timeout: 60m
