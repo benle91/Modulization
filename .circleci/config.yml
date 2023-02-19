@@ -105,5 +105,7 @@ references:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  build_and_test:
-    - staging_distribution
+  version: 2
+  workflow:
+    jobs:
+      - staging_distribution:
