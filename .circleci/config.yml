@@ -105,5 +105,5 @@ references:
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   build_and_test
-  jobs:
-    - staging_distribution
+    jobs:
+      - staging_distribution
