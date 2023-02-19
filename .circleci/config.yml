@@ -103,6 +103,7 @@ jobs:
       # Checkout the code as the first step.
       - checkout
       - ruby/install-deps
+      - *ruby_dependencies
 #      - *gradlew_permission
 #      - *fastlane_env
 ##      - *restore_gradle_cache
@@ -110,11 +111,9 @@ jobs:
 ##      - *android_dependencies
       - run: bundle install
       - run: bundle clean --force
-#      - *ruby_dependencies
-#      - run: gem install fastlane -NV
 ##      - *save_gradle_cache
 ##      - *save_gems_cache
-      - *decode_build_staging_credential
+#      - *decode_build_staging_credential
       - run:
           name: Deploy latest Staging build to Firebase App Distribution
           command: bundle exec fastlane buildAndUploadToFirebaseDistribute
