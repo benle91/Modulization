@@ -17,7 +17,7 @@ references:
   workspace:
     - &workspace ~/modulization
     # Docker Image Configs
-    android_config: &android_config
+  android_config: &android_config
       working_directory: *workspace
       docker:
         - image: circleci/android:api-27
