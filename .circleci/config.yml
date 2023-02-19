@@ -79,35 +79,50 @@ references:
       command: |
         echo $BUILD_STAGING_CREDENTIAL | base64 -d | tee fastlane/modulization-e23e7-firebase-adminsdk-3cs4y-3d917176fb.json >/dev/null
 
+  staging_distribution:
+    <<: *android_config
+    # These next lines define the Android machine image executor.
+    # See: https://circleci.com/docs/2.0/executor-types/
+    executor:
+      name: android/android-machine
+
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      # Checkout the code as the first step.
+      - checkout
+      - *restore_gradle_cache
+      - *restore_gems_cache
+      - *android_dependencies
+      - run: bundle install
+      - run: bundle clean --force
+      - *ruby_dependencies
+      - *save_gradle_cache
+      - *save_gems_cache
+      - *decode_build_staging_credential
+      - run:
+          name: Deploy latest Staging build to Firebase App Distribution
+          command: bundle exec fastlane buildAndUploadToFirebaseDistribute
+          no_output_timeout: 60m
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
-      staging_distribution:
-        <<: *android_config
-        # These next lines define the Android machine image executor.
-        # See: https://circleci.com/docs/2.0/executor-types/
-        executor:
-          name: android/android-machine
-
-        # Add steps to the job
-        # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-        steps:
-          # Checkout the code as the first step.
-          - checkout
-          - *restore_gradle_cache
-          - *restore_gems_cache
-          - *android_dependencies
-          - run: bundle install
-          - run: bundle clean --force
-          - *ruby_dependencies
-          - *save_gradle_cache
-          - *save_gems_cache
-          - *decode_build_staging_credential
-          - run:
-              name: Deploy latest Staging build to Firebase App Distribution
-              command: bundle exec fastlane buildAndUploadToFirebaseDistribute
-              no_output_timeout: 60m
+      # Manual build staging
+      - SUBMIT_STAGING:
+          type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
+          filters:
+            branches:
+              only:
+                - /feature\/.*/
+                - /release.*/
+                - staging
+                - develop
+                - master
+                - /fix\/.*/
+      - staging_distribution:
+          requires:
+            - SUBMIT_STAGING
