@@ -81,10 +81,6 @@ references:
 
   staging_distribution: &staging_distribution
     <<: *android_config
-    # These next lines define the Android machine image executor.
-    # See: https://circleci.com/docs/2.0/executor-types/
-    executor:
-      name: android/android-machine
 
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
