@@ -104,11 +104,14 @@ references:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
+  build_and_test:
+
   version: 2
   workflows:
     sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
+      - staging_distribution
       # Manual build staging
       - SUBMIT_STAGING:
           type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
@@ -121,6 +124,5 @@ workflows:
                 - staging
                 - develop
                 - /fix\/.*/
-      - staging_distribution:
           requires:
-            - SUBMIT_STAGING
+            - staging_distribution
