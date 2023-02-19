@@ -84,7 +84,7 @@ references:
   gradlew_permission: &gradlew_permission
     run:
       name: chmod permissions
-        command: chmod +x ./gradlew
+      command: chmod +x ./gradlew
 
 jobs:
   staging_distribution:
