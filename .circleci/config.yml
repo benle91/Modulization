@@ -18,16 +18,16 @@ references:
     - &workspace ~/Modulization
     # Docker Image Configs
   android_config: &android_config
-      working_directory: *workspace
-      docker:
-        - image: circleci/android:api-27
-      resource_class: xlarge
-      environment:
-        TZ: "Asia/Ho_Chi_Minh"
-        # Customize the JVM maximum heap limit
-        JVM_OPTS: -Xmx3048m
-        GRADLE_OPTS: -Xmx3048m -Dkotlin.compiler.execution.strategy=in-process -XX:MaxMetaspaceSize=256m -XX:+HeapDumpOnOutOfMemoryError
-        TERM: dumb
+    working_directory: *workspace
+    docker:
+      - image: circleci/android:api-27
+    resource_class: xlarge
+    environment:
+      TZ: "Asia/Ho_Chi_Minh"
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3048m
+      GRADLE_OPTS: -Xmx3048m -Dkotlin.compiler.execution.strategy=in-process -XX:MaxMetaspaceSize=256m -XX:+HeapDumpOnOutOfMemoryError
+      TERM: dumb
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE RUBY FOR FASTLANE
   # ---------------------------------------------------------------------------------------------------------------------
@@ -106,17 +106,4 @@ jobs:
 workflows:
   sample:
     jobs:
-      - SUBMIT_STAGING:
-          type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
-          filters:
-            branches:
-              only:
-                - /feature\/.*/
-                - /release.*/
-                - staging
-                - develop
-                - /fix\/.*/
-                - master
-        - staging_distribution:
-            requires:
-              - SUBMIT_STAGING
+      - staging_distribution
