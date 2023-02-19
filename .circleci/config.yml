@@ -21,7 +21,6 @@ references:
     working_directory: *workspace
     docker:
       - image: circleci/android:api-27
-    resource_class: xlarge
     environment:
       TZ: "Asia/Ho_Chi_Minh"
       # Customize the JVM maximum heap limit
