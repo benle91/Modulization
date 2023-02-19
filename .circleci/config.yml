@@ -109,8 +109,8 @@ jobs:
 #      - *android_dependencies
       - run: bundle install
       - run: bundle clean --force
-      - run: bundle exec fastlane
       - *ruby_dependencies
+      - run: gem install fastlane -NV
 #      - *save_gradle_cache
 #      - *save_gems_cache
 #      - *decode_build_staging_credential
