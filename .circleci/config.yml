@@ -98,8 +98,8 @@ jobs:
 #      - *restore_gradle_cache
 #      - *restore_gems_cache
 #      - *android_dependencies
-#      - run: bundle install
-#      - run: bundle clean --force
+      - run: bundle install
+      - run: bundle clean --force
 #      - *ruby_dependencies
 #      - *save_gradle_cache
 #      - *save_gems_cache
