@@ -109,7 +109,7 @@ jobs:
 #      - *android_dependencies
       - run: bundle install
       - run: bundle clean --force
-      - run: bundle update fastlane
+      - run: bundle exec fastlane
       - *ruby_dependencies
 #      - *save_gradle_cache
 #      - *save_gems_cache
