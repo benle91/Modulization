@@ -108,4 +108,4 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - staging_distribution:
+      - staging_distribution
