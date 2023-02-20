@@ -15,13 +15,13 @@ config_android: &config_android
   environment:
     JVM_OPTS: -Xmx3200m
 
-  # ---------------------------------------------------------------------------------------------------------------------
-  # Chmod Permission Gradlew
-  # ---------------------------------------------------------------------------------------------------------------------
-  gradlew_permission: &gradlew_permission
-    run:
-      name: chmod permissions
-      command: chmod +x ./gradlew
+# ---------------------------------------------------------------------------------------------------------------------
+# Chmod Permission Gradlew
+# ---------------------------------------------------------------------------------------------------------------------
+gradlew_permission: &gradlew_permission
+  run:
+    name: chmod permissions
+    command: chmod +x ./gradlew
 
 build_test: &build_test
   <<: *config_android
