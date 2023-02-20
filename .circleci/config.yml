@@ -47,6 +47,13 @@ references:
         gem install bundler
         bundle check || bundle update --system || bundle install --path vendor/bundle
 
+  fastlane_dependencies: &fastlane_dependencies
+    run:
+      name: Download Fastlane Dependencies
+      command: |
+        gem install fastlane
+        fastlane check || bundle update fastlane
+
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE GRADLE
   # ---------------------------------------------------------------------------------------------------------------------
@@ -108,6 +115,7 @@ jobs:
           version: '3.0.1'
       - *ruby_dependencies
       - *gradlew_permission
+      - *fastlane_dependencies
 #      - *fastlane_env
 ##      - *restore_gradle_cache
 ##      - *restore_gems_cache
