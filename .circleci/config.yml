@@ -25,7 +25,6 @@ references:
       TZ: "Asia/Ho_Chi_Minh"
       # Customize the JVM maximum heap limit
       MAVEN_OPTS: -Xmx4096m
-      JAVA_HOME: /usr/lib/jvm/jdk19.0.2/
 
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE RUBY FOR FASTLANE
