@@ -20,7 +20,7 @@ references:
   android_config: &android_config
     working_directory: *workspace
     docker:
-      - image: cimg/openjdk:19.0.2-node
+      - image: cimg/openjdk:19.0.2
     environment:
       TZ: "Asia/Ho_Chi_Minh"
       # Customize the JVM maximum heap limit
@@ -109,6 +109,8 @@ references:
 jobs:
   staging_distribution:
     <<: *android_config
+    docker:
+      - image: 'cimg/openjdk:19.0.2'
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
