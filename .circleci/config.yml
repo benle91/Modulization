@@ -85,7 +85,7 @@ references:
   config_android: &config_android
     working_directory: ~/Modulization
     docker:
-      - image: cimg/android:2023.02
+      - image: ccistaging/android:api-30
 
     environment:
       JVM_OPTS: -Xmx3200m
@@ -94,9 +94,7 @@ references:
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   staging_distribution:
-    executor:
-      name: android/android-machine
-      tag: 2022.08.1
+    <<: *config_android
 
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
@@ -104,9 +102,9 @@ jobs:
       # Checkout the code as the first step.
       - checkout
 
-      - run: echo 'export TERM=xterm' >> $BASH_ENV
-      - run: echo y | android update sdk --no-ui --all --filter "tools"
-      - run: echo y | android update sdk --no-ui --all --filter "build-tools-24.0.1"
+#      - run: echo 'export TERM=xterm' >> $BASH_ENV
+#      - run: echo y | android update sdk --no-ui --all --filter "tools"
+#      - run: echo y | android update sdk --no-ui --all --filter "build-tools-24.0.1"
       - run: sudo chmod +x ./gradlew
       - run: ./gradlew androidDepedencies
       - run: ./gradlew assembleDebug
