@@ -103,12 +103,7 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run:
-          name: chmod permissions
-          command: chmod +x ./gradlew
 
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run: echo 'export TERM=xterm' >> $BASH_ENV
       - run: echo y | android update sdk --no-ui --all --filter "tools"
       - run: echo y | android update sdk --no-ui --all --filter "build-tools-24.0.1"
