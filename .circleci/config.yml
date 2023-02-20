@@ -102,9 +102,9 @@ jobs:
       # Checkout the code as the first step.
       - checkout
 
-#      - run: echo 'export TERM=xterm' >> $BASH_ENV
-#      - run: echo y | android update sdk --no-ui --all --filter "tools"
-#      - run: echo y | android update sdk --no-ui --all --filter "build-tools-24.0.1"
+      - run: echo 'export TERM=xterm' >> $BASH_ENV
+      - run: echo y | android update sdk --no-ui --all --filter "tools"
+      - run: echo y | android update sdk --no-ui --all --filter "build-tools-24.0.1"
       - run: sudo chmod +x ./gradlew
       #- run: ./gradlew androidDepedencies
       - run: ./gradlew assembleDebug
