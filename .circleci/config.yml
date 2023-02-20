@@ -107,20 +107,14 @@ jobs:
           name: chmod permissions
           command: chmod +x ./gradlew
 
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-
-      # And finally run the release build
-      - run:
-          name: gradlew wrapper
-          command: |
-            ./gradlew wrapper
-
-      - run:
-          name: Assemble debug build
-          command: |
-            ./gradlew assembleDebug
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run: echo 'export TERM=xterm' >> $BASH_ENV
+      - run: echo y | android update sdk --no-ui --all --filter "tools"
+      - run: echo y | android update sdk --no-ui --all --filter "build-tools-24.0.1"
+      - run: sudo chmod +x ./gradlew
+      - run: ./gradlew androidDepedencies
+      - run: ./gradlew assembleDebug
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
