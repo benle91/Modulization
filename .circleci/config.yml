@@ -101,7 +101,6 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-
       - run: sudo chmod +x ./gradlew
       #- run: ./gradlew androidDepedencies
       - run: ./gradlew assembleDebug
