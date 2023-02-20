@@ -113,9 +113,14 @@ jobs:
 
       # And finally run the release build
       - run:
-          name: Assemble debug build
+          name: gradlew wrapper
           command: |
             ./gradlew wrapper
+
+      - run:
+          name: Assemble debug build
+          command: |
+            ./gradlew assembleDebug
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
