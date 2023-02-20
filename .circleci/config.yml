@@ -1,53 +1,55 @@
 version: 2.1
 
 orbs:
-  android: circleci/android@0.2.1
+  android: "2.1.2"
+
+
 
 references:
   cache_key: &cache_key
     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
 
-config_android: &config_android
-  working_directory: ~/Modulization
-  docker:
-    - image: circleci/android:api-30
+  config_android: &config_android
+    working_directory: ~/Modulization
+    docker:
+      - image: circleci/android:api-30
 
-  environment:
-    JVM_OPTS: -Xmx3200m
+    environment:
+      JVM_OPTS: -Xmx3200m
 
-# ---------------------------------------------------------------------------------------------------------------------
-# Chmod Permission Gradlew
-# ---------------------------------------------------------------------------------------------------------------------
-gradlew_permission: &gradlew_permission
-  run:
-    name: chmod permissions
-    command: chmod +x ./gradlew
+  # ---------------------------------------------------------------------------------------------------------------------
+  # Chmod Permission Gradlew
+  # ---------------------------------------------------------------------------------------------------------------------
+  gradlew_permission: &gradlew_permission
+    run:
+      name: chmod permissions
+      command: chmod +x ./gradlew
 
-build_test: &build_test
-  <<: *config_android
-  steps:
-    - checkout
-    - *gradlew_permission
-    - run:
-        name: Download Dependencies
-        command: ./gradlew androidDependencies
+  build_test: &build_test
+    <<: *config_android
+    steps:
+      - checkout
+      - *gradlew_permission
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
 
-    - run:
-        name: Build app
-        command: ./gradlew build
+      - run:
+          name: Build app
+          command: ./gradlew build
 
-deploy_debug_to_firebase: &deploy_debug_to_firebase
-  <<: *config_android
-  steps:
-    - checkout
-    - run:
-        name: Build debug
-        command: ./gradlew :app:assembleDebug
+  deploy_debug_to_firebase: &deploy_debug_to_firebase
+    <<: *config_android
+    steps:
+      - checkout
+      - run:
+          name: Build debug
+          command: ./gradlew :app:assembleDebug
 
-    - run:
-        name: Install Firebase CLI
-        command: |
-          curl -sL https://firebase.tools | bash
+      - run:
+          name: Install Firebase CLI
+          command: |
+            curl -sL https://firebase.tools | bash
 
 #    - run:
 #        name: Upload File APK Debug to Firebase App Distribution
