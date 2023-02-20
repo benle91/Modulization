@@ -20,11 +20,12 @@ references:
   android_config: &android_config
     working_directory: *workspace
     docker:
-      - image: cimg/openjdk:19.0.2
+      - image: circleci/openjdk:8-jdk
     environment:
       TZ: "Asia/Ho_Chi_Minh"
       # Customize the JVM maximum heap limit
       MAVEN_OPTS: -Xmx4096m
+      JAVA_HOME: /usr/lib/jvm/jdk1.8.0/
 
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE RUBY FOR FASTLANE
@@ -124,10 +125,6 @@ jobs:
 ##      - *save_gradle_cache
 ##      - *save_gems_cache
 #      - *decode_build_staging_credential
-      - run:
-          name: "Setup Environment Variables"
-          command: |
-            echo 'export PATH="$(dirname $( readlink -f $(which java) ))"' >> "$JAVA_HOME"
       - run:
           name: "Install Firebase CLI"
           command: |
