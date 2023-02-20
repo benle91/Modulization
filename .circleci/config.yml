@@ -168,4 +168,4 @@ workflows:
   # config in order for CircleCI to also build on every commit.
   commit:
     jobs:
-      - build_java11
+      - staging_distribution
