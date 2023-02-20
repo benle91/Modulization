@@ -84,8 +84,6 @@ references:
   # Docker Image Configs
   config_android: &config_android
     working_directory: ~/Modulization
-    executor:
-      name: android/android-machine
     docker:
       - image: cimg/android:2023.02
 
