@@ -80,48 +80,30 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 references:
-  # Workspaces represent the spaces we work on & are useful for sharing data between jobs.
-  # Create a workspace with the ~/code directory.
-  workspace:
-    - &workspace ~/Modulization
-  # Docker Image Configs
-  android_config: &android_config
-    working_directory: *workspace
-    docker:
-      - image: circleci/android:api-27
-    resource_class: xlarge
-    environment:
-      TZ: "Asia/Ho_Chi_Minh"
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3048m
-      GRADLE_OPTS: -Xmx3048m -Dkotlin.compiler.execution.strategy=in-process -XX:MaxMetaspaceSize=256m -XX:+HeapDumpOnOutOfMemoryError
-      TERM: dumb
 
-    ruby_dependencies: &ruby_dependencies
-      run:
-        name: Download Ruby Dependencies
-        command: |
-          gem install bundler
-          bundle check || bundle update --system || bundle install --path vendor/bundle
+  # Docker Image Configs
+  config_android: &config_android
+    working_directory: ~/Modulization
+    docker:
+      - image: circleci/android:api-30
+
+    environment:
+      JVM_OPTS: -Xmx3200m
 
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   staging_distribution:
-    # These next lines define the Android machine image executor.
-    # See: https://circleci.com/docs/2.0/executor-types/
-    executor:
-      name: android/android-machine
+    <<: *config_android
 
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       # Checkout the code as the first step.
       - checkout
-
-      #      # The next step will run the unit tests
-      #      - android/run-tests:
-      #          test-command: ./gradlew lint testDebug --continue
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - run:
           name: chmod permissions
           command: chmod +x ./gradlew
