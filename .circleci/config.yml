@@ -101,7 +101,7 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run: sdkmanager --update && yes | sdkmanager --licenses
+      - run: sdkmanager --update
       - run: sudo chmod +x ./gradlew
       #- run: ./gradlew androidDepedencies
       - run: ./gradlew assembleDebug
