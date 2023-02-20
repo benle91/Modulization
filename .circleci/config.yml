@@ -20,12 +20,12 @@ references:
   android_config: &android_config
     working_directory: *workspace
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:11-jdk
     environment:
       TZ: "Asia/Ho_Chi_Minh"
       # Customize the JVM maximum heap limit
       MAVEN_OPTS: -Xmx4096m
-      JAVA_HOME: /usr/lib/jvm/jdk1.8.0/
+      JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64/
 
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE RUBY FOR FASTLANE
@@ -106,34 +106,6 @@ references:
     command: |
       echo ${JAVA_HOME}
 
-  build_java11: &build_java11
-    machine:
-      image: ubuntu-1604:201903-01
-
-    working_directory: ~/repo
-
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
-      JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64/
-
-    steps:
-      - run:
-          # Need to do this because jdk-11 isn't found without updating the package lists.
-          name: Update Package Lists from apt repositories
-          command: |
-            sudo apt-get update
-      - run:
-          name: Upgrade JDK to JDK 11
-          command: |
-            sudo apt install openjdk-11-jdk-headless
-      - run: *javaversion
-      - checkout
-
-      - run:
-          name: Maven Install
-          command: mvn dependency:go-offline install
-
 jobs:
   staging_distribution:
     <<: *android_config
@@ -146,7 +118,6 @@ jobs:
       - checkout
       - ruby/install:
           version: '3.0.1'
-      - *build_java11
       - *ruby_dependencies
       - *gradlew_permission
       - *fastlane_dependencies
