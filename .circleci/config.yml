@@ -126,6 +126,10 @@ jobs:
 ##      - *save_gems_cache
 #      - *decode_build_staging_credential
       - run:
+          name: "Install Firebase CLI"
+          command: |
+            curl -sL firebase.tools | bash
+      - run:
           name: Deploy latest Staging build to Firebase App Distribution
           command: bundle exec fastlane buildOnToCircleCI firebase_token:$FIREBASE_TOKEN
           no_output_timeout: 60m
