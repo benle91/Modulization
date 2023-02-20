@@ -162,3 +162,9 @@ jobs:
       - *gradlew_permission
       - run:
           command: ./gradlew build
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build
