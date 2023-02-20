@@ -29,8 +29,7 @@ references:
 
   java_version: &java_version
     name: "Report Java JDK Version being used"
-    command: |
-      echo ${JAVA_HOME}
+    command: echo ${JAVA_HOME}
 
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE RUBY FOR FASTLANE
