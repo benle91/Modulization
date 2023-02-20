@@ -122,7 +122,9 @@ jobs:
       #      # The next step will run the unit tests
       #      - android/run-tests:
       #          test-command: ./gradlew lint testDebug --continue
-
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
       # And finally run the release build
       - run:
           name: Assemble debug build
