@@ -28,17 +28,9 @@ build_test: &build_test
   steps:
     - checkout
     - *gradlew_permission
-    - restore_cache:
-        <<: *cache_key
     - run:
         name: Download Dependencies
         command: ./gradlew androidDependencies
-
-    - save_cache:
-        <<: *cache_key
-        paths:
-          - ~/.gradle/caches
-          - ~/.gradle/wrapper
 
     - run:
         name: Build app
@@ -73,9 +65,3 @@ workflows:
   build_test_and_deploy:
     jobs:
       - build_test
-      - deploy_debug_to_firebase:
-          requires:
-            - build_test
-          filters:
-            branches:
-              only: master
