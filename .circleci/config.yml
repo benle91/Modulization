@@ -119,7 +119,7 @@ jobs:
           version: '3.0.1'
       - run:
           name: "Setup custom environment variables"
-          command: export JAVA_HOME="$(dirname "$(dirname "$(readlink -e "$(type -p "javac")")")")"
+          command: export JAVA_HOME=$(dirname $( readlink -f $(which java) ))
       - *ruby_dependencies
       - *gradlew_permission
       - *fastlane_dependencies
