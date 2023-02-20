@@ -27,10 +27,6 @@ references:
       MAVEN_OPTS: -Xmx4096m
       JAVA_HOME: /usr/lib/jvm/jdk19.0.2/
 
-  java_version: &java_version
-    name: "Report Java JDK Version being used"
-    command: echo ${JAVA_HOME}
-
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE RUBY FOR FASTLANE
   # ---------------------------------------------------------------------------------------------------------------------
@@ -117,7 +113,6 @@ jobs:
       - checkout
       - ruby/install:
           version: '3.0.1'
-      - *java_version
       - *ruby_dependencies
       - *gradlew_permission
       - *fastlane_dependencies
