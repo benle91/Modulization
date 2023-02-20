@@ -118,7 +118,6 @@ jobs:
       - checkout
       - ruby/install:
           version: '3.0.1'
-      - *java_version
       - *ruby_dependencies
       - *gradlew_permission
       - *fastlane_dependencies
