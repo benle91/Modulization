@@ -118,6 +118,9 @@ jobs:
       - checkout
       - ruby/install:
           version: '3.0.1'
+      - run:
+          name: "Setup custom environment variables"
+          command: echo 'export JAVA_HOME=$(dirname $( readlink -f $(which java) ))' >> "$JAVA_HOME"
       - *ruby_dependencies
       - *gradlew_permission
       - *fastlane_dependencies
