@@ -1,170 +1,72 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
-# For a detailed guide to building and testing on Android, read the docs:
-# https://circleci.com/docs/2.0/language-android/ for more details.
-#version: 2.1
-#
-## Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
-## See: https://circleci.com/docs/2.0/orb-intro/
-#orbs:
-#  ruby: circleci/ruby@2.0.0
-#
-## Define a job to be invoked later in a workflow.
-## See: https://circleci.com/docs/2.0/configuration-reference/#jobs
-#references:
-#  # Workspaces represent the spaces we work on & are useful for sharing data between jobs.
-#  # Create a workspace with the ~/code directory.
-#  workspace:
-#    - &workspace ~/Modulization
-#    # Docker Image Configs
-#  android_config: &android_config
-#    working_directory: *workspace
-#    docker:
-#      - image: circleci/openjdk:11-jdk
-#    environment:
-#      TZ: "Asia/Ho_Chi_Minh"
-#      # Customize the JVM maximum heap limit
-#      MAVEN_OPTS: -Xmx4096m
-#
-#  # ---------------------------------------------------------------------------------------------------------------------
-#  # CACHE RUBY FOR FASTLANE
-#  # ---------------------------------------------------------------------------------------------------------------------
-#  restore_gems_cache: &restore_gems_cache
-#    restore_cache:
-#      key: gems-{{ checksum "fastlane/release_notes.txt" }}
-#
-#  save_gems_cache: &save_gems_cache
-#    save_cache:
-#      paths:
-#        - vendor/bundle
-#      key: gems-{{ checksum "fastlane/release_notes.txt" }}
-#
-#  ruby_dependencies: &ruby_dependencies
-#    run:
-#      name: Download Ruby Dependencies
-#      command: |
-#        gem install bundler
-#        bundle check || bundle update --system || bundle install --path vendor/bundle
-#
-#  fastlane_dependencies: &fastlane_dependencies
-#    run:
-#      name: Download Fastlane Dependencies
-#      command: |
-#        gem install fastlane
-#        fastlane check || bundle update fastlane
-#
-#  # ---------------------------------------------------------------------------------------------------------------------
-#  # CACHE GRADLE
-#  # ---------------------------------------------------------------------------------------------------------------------
-#  restore_gradle_cache: &restore_gradle_cache
-#    restore_cache:
-#      key: jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
-#
-#  save_gradle_cache: &save_gradle_cache
-#    save_cache:
-#      paths:
-#        - ~/.gradle
-#        - ~/.m2
-#      key: jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
-#
-#  # ---------------------------------------------------------------------------------------------------------------------
-#  # DOWNLOAD ANDROID DEPENDENCIES
-#  # ---------------------------------------------------------------------------------------------------------------------
-#  android_dependencies: &android_dependencies
-#    run:
-#      name: Download Android Dependencies
-#      command: ./gradlew androidDependencies
-#
-#  # ---------------------------------------------------------------------------------------------------------------------
-#  # DECODE FIREBASE SERVICE CREDENTIAL FILE AND WRITE IT TO A FILE
-#  # ---------------------------------------------------------------------------------------------------------------------
-#  decode_build_staging_credential: &decode_build_staging_credential
-#    run:
-#      name: Decode build staging credential
-#      command: |
-#        echo $BUILD_STAGING_CREDENTIAL | base64 -d | tee fastlane/modulization-e23e7-firebase-adminsdk-3cs4y-3d917176fb.json >/dev/null
-#
-#  # ---------------------------------------------------------------------------------------------------------------------
-#  # Chmod Permission Gradlew
-#  # ---------------------------------------------------------------------------------------------------------------------
-
-#
-#  # ---------------------------------------------------------------------------------------------------------------------
-#  # Chmod Permission Gradlew
-#  # ---------------------------------------------------------------------------------------------------------------------
-#  fastlane_env: &fastlane_env
-#    run:
-#      name: setup fastlane
-#      command: fastlane env
-#
-#  javaversion: &javaversion
-#    name: "Report Java JDK Version being used"
-#    command: |
-#      echo ${JAVA_HOME}
-#
-#jobs:
-#  staging_distribution:
-#    <<: *android_config
-#    docker:
-#      - image: 'cimg/base:stable'
-#    # Add steps to the job
-#    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-#    steps:
-#      # Checkout the code as the first step.
-#      - checkout
-#      - ruby/install:
-#          version: '3.0.1'
-#      - run:
-#          name: "Setup custom environment variables"
-#          command: export JAVA_HOME=$(dirname $( readlink -f $(which java) ))
-#      - *ruby_dependencies
-#      - *gradlew_permission
-#      - *fastlane_dependencies
-#      - run:
-#          name: "Install Firebase CLI"
-#          command: |
-#            curl -sL firebase.tools | bash
-#      - run:
-#          name: Deploy latest Staging build to Firebase App Distribution
-#          command: bundle exec fastlane buildOnToCircleCI firebase_token:$FIREBASE_TOKEN
-#          no_output_timeout: 60m
-#
-## Invoke jobs via workflows
-## See: https://circleci.com/docs/2.0/configuration-reference/#workflows
-#workflows:
-#  version: 2
-#
-#  # In CircleCI v2.1, when no workflow is provided in config, an implicit one is used. However, if you declare a
-#  #  workflow to run a scheduled build, the implicit workflow is no longer run. You must add the job workflow to your
-#  # config in order for CircleCI to also build on every commit.
-#  commit:
-#    jobs:
-#      - staging_distribution
-#
-
 version: 2.1
 
 orbs:
-  android: circleci/android@0.2.0
+  android: circleci/android@0.2.1
 
-  gradlew_permission: &gradlew_permission
-    run:
-      name: chmod permissions
-      command: chmod +x ./gradlew
+references:
+  cache_key: &cache_key
+    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+
+config_android: &config_android
+  working_directory: ~/Modulization
+  docker:
+    - image: circleci/android:api-30
+
+  environment:
+    JVM_OPTS: -Xmx3200m
+
+build_test: &build_test
+  <<: *config_android
+  steps:
+    - checkout
+    - restore_cache:
+        <<: *cache_key
+    - run:
+        name: Download Dependencies
+        command: ./gradlew androidDependencies
+
+    - save_cache:
+        <<: *cache_key
+        paths:
+          - ~/.gradle/caches
+          - ~/.gradle/wrapper
+
+    - run:
+        name: Build app
+        command: ./gradlew build
+
+deploy_debug_to_firebase: &deploy_debug_to_firebase
+  <<: *config_android
+  steps:
+    - checkout
+    - run:
+        name: Build debug
+        command: ./gradlew :app:assembleDebug
+
+    - run:
+        name: Install Firebase CLI
+        command: |
+          curl -sL https://firebase.tools | bash
+
+#    - run:
+#        name: Upload File APK Debug to Firebase App Distribution
+#        command: firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app $FIREBASE_APP_ID --token $FIREBASE_TOKEN_CLI --release-notes "Upload APK to Firebase"
 
 jobs:
-  build:
-    executor:
-      name: android/android-machine
+  build_test:
+    <<: *build_test
 
-    steps:
-      - checkout
-      - *gradlew_permission
-      - run:
-          command: ./gradlew build
+  deploy_debug_to_firebase:
+    <<: *deploy_debug_to_firebase
 
 workflows:
-  version: 2
-  commit:
+  version: 1
+  build_test_and_deploy:
     jobs:
-      - build
+      - build_test
+      - deploy_debug_to_firebase:
+          requires:
+            - build_test
+          filters:
+            branches:
+              only: master
