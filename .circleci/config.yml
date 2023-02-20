@@ -101,6 +101,39 @@ references:
       name: setup fastlane
       command: fastlane env
 
+  javaversion: &javaversion
+    name: "Report Java JDK Version being used"
+    command: |
+      echo ${JAVA_HOME}
+
+  build_java11:
+    machine:
+      image: ubuntu-1604:201903-01
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
+      JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64/
+
+    steps:
+      - run:
+          # Need to do this because jdk-11 isn't found without updating the package lists.
+          name: Update Package Lists from apt repositories
+          command: |
+            sudo apt-get update
+      - run:
+          name: Upgrade JDK to JDK 11
+          command: |
+            sudo apt install openjdk-11-jdk-headless
+      - run: *javaversion
+      - checkout
+
+      - run:
+          name: Maven Install
+          command: mvn dependency:go-offline install
+
 jobs:
   staging_distribution:
     <<: *android_config
@@ -116,15 +149,6 @@ jobs:
       - *ruby_dependencies
       - *gradlew_permission
       - *fastlane_dependencies
-#      - *fastlane_env
-##      - *restore_gradle_cache
-##      - *restore_gems_cache
-##      - *android_dependencies
-#      - run: bundle install
-#      - run: bundle clean --force
-##      - *save_gradle_cache
-##      - *save_gems_cache
-#      - *decode_build_staging_credential
       - run:
           name: "Install Firebase CLI"
           command: |
@@ -139,4 +163,4 @@ jobs:
 workflows:
   sample:
     jobs:
-      - staging_distribution
+      - build_java11
