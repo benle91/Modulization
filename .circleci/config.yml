@@ -1,68 +1,138 @@
+#version: 2.1
+#
+#orbs:
+#  android: circleci/android@2.1.2
+#
+#references:
+#  cache_key: &cache_key
+#    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+#
+#  config_android: &config_android
+#    working_directory: ~/Modulization
+#    docker:
+#      - image: circleci/android:api-30
+#
+#    environment:
+#      JVM_OPTS: -Xmx3200m
+#
+#  # ---------------------------------------------------------------------------------------------------------------------
+#  # Chmod Permission Gradlew
+#  # ---------------------------------------------------------------------------------------------------------------------
+#  gradlew_permission: &gradlew_permission
+#    run:
+#      name: chmod permissions
+#      command: chmod +x ./gradlew
+#
+#  build_test: &build_test
+#    executor:
+#      name: android/android-machine
+#    steps:
+#      - checkout
+#      - *gradlew_permission
+#      - run:
+#          name: Download Dependencies
+#          command: ./gradlew androidDependencies
+#
+#      - run:
+#          name: Build app
+#          command: ./gradlew build
+#
+#  deploy_debug_to_firebase: &deploy_debug_to_firebase
+#    <<: *config_android
+#    steps:
+#      - checkout
+#      - run:
+#          name: Build debug
+#          command: ./gradlew :app:assembleDebug
+#
+#      - run:
+#          name: Install Firebase CLI
+#          command: |
+#            curl -sL https://firebase.tools | bash
+#
+##    - run:
+##        name: Upload File APK Debug to Firebase App Distribution
+##        command: firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app $FIREBASE_APP_ID --token $FIREBASE_TOKEN_CLI --release-notes "Upload APK to Firebase"
+#
+#jobs:
+#  build_test:
+#    <<: *build_test
+#
+#  deploy_debug_to_firebase:
+#    <<: *deploy_debug_to_firebase
+#
+#workflows:
+#  version: 1
+#  build_test_and_deploy:
+#    jobs:
+#      - build_test
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+# For a detailed guide to building and testing on Android, read the docs:
+# https://circleci.com/docs/2.0/language-android/ for more details.
 version: 2.1
 
+# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
-  android: circleci/android@2.1.2
+  android: circleci/android@1.0.3
 
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 references:
-  cache_key: &cache_key
-    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-
-  config_android: &config_android
-    working_directory: ~/Modulization
+  # Workspaces represent the spaces we work on & are useful for sharing data between jobs.
+  # Create a workspace with the ~/code directory.
+  workspace:
+    - &workspace ~/Modulization
+  # Docker Image Configs
+  android_config: &android_config
+    working_directory: *workspace
     docker:
-      - image: circleci/android:api-30
-
+      - image: circleci/android:api-27
+    resource_class: xlarge
     environment:
-      JVM_OPTS: -Xmx3200m
+      TZ: "Asia/Ho_Chi_Minh"
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3048m
+      GRADLE_OPTS: -Xmx3048m -Dkotlin.compiler.execution.strategy=in-process -XX:MaxMetaspaceSize=256m -XX:+HeapDumpOnOutOfMemoryError
+      TERM: dumb
 
-  # ---------------------------------------------------------------------------------------------------------------------
-  # Chmod Permission Gradlew
-  # ---------------------------------------------------------------------------------------------------------------------
-  gradlew_permission: &gradlew_permission
-    run:
-      name: chmod permissions
-      command: chmod +x ./gradlew
+    ruby_dependencies: &ruby_dependencies
+      run:
+        name: Download Ruby Dependencies
+        command: |
+          gem install bundler
+          bundle check || bundle update --system || bundle install --path vendor/bundle
 
-  build_test: &build_test
-    executor:
-      name: android/android-machine
-    steps:
-      - checkout
-      - *gradlew_permission
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-
-      - run:
-          name: Build app
-          command: ./gradlew build
-
-  deploy_debug_to_firebase: &deploy_debug_to_firebase
-    <<: *config_android
-    steps:
-      - checkout
-      - run:
-          name: Build debug
-          command: ./gradlew :app:assembleDebug
-
-      - run:
-          name: Install Firebase CLI
-          command: |
-            curl -sL https://firebase.tools | bash
-
-#    - run:
-#        name: Upload File APK Debug to Firebase App Distribution
-#        command: firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app $FIREBASE_APP_ID --token $FIREBASE_TOKEN_CLI --release-notes "Upload APK to Firebase"
 
 jobs:
-  build_test:
-    <<: *build_test
+  # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
+  staging_distribution:
+    # These next lines define the Android machine image executor.
+    # See: https://circleci.com/docs/2.0/executor-types/
+    executor:
+      name: android/android-machine
 
-  deploy_debug_to_firebase:
-    <<: *deploy_debug_to_firebase
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      # Checkout the code as the first step.
+      - checkout
 
+      #      # The next step will run the unit tests
+      #      - android/run-tests:
+      #          test-command: ./gradlew lint testDebug --continue
+
+      # And finally run the release build
+      - run:
+          name: Assemble debug build
+          command: |
+            ./gradlew assembleDebug
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  version: 1
-  build_test_and_deploy:
+  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build_test
+      - staging_distribution
