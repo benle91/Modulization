@@ -24,7 +24,8 @@ references:
       command: chmod +x ./gradlew
 
   build_test: &build_test
-    <<: *config_android
+    executor:
+      name: android/android-machine
     steps:
       - checkout
       - *gradlew_permission
