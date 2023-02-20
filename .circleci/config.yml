@@ -106,7 +106,7 @@ references:
     command: |
       echo ${JAVA_HOME}
 
-  build_java11:
+  build_java11: &build_java11
     machine:
       image: ubuntu-1604:201903-01
 
@@ -146,6 +146,7 @@ jobs:
       - checkout
       - ruby/install:
           version: '3.0.1'
+      - *build_java11
       - *ruby_dependencies
       - *gradlew_permission
       - *fastlane_dependencies
