@@ -101,12 +101,15 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
+
       - run:
           name: chmod permissions
           command: chmod +x ./gradlew
+
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+
       # And finally run the release build
       - run:
           name: Assemble debug build
