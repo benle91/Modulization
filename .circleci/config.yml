@@ -112,8 +112,8 @@ jobs:
 ##      - *restore_gradle_cache
 ##      - *restore_gems_cache
 ##      - *android_dependencies
-      - run: bundle install
-      - run: bundle clean --force
+#      - run: bundle install
+#      - run: bundle clean --force
 ##      - *save_gradle_cache
 ##      - *save_gems_cache
 #      - *decode_build_staging_credential
