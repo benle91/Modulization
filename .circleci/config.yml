@@ -126,6 +126,10 @@ jobs:
 ##      - *save_gems_cache
 #      - *decode_build_staging_credential
       - run:
+          name: "Setup Environment Variables"
+          command: |
+            echo 'export PATH="$(dirname $( readlink -f $(which java) ))"' >> "$JAVA_HOME"
+      - run:
           name: "Install Firebase CLI"
           command: |
             curl -sL firebase.tools | bash
