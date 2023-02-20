@@ -7,8 +7,7 @@ version: 2.1
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 # See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
-  android: circleci/android@2.1.2
-  node: circleci/node@5.0.2
+  ruby: circleci/ruby@2.0.0
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -105,20 +104,17 @@ references:
 jobs:
   staging_distribution:
     <<: *android_config
-    docker:
-      - image: 'cimg/base:stable'
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       # Checkout the code as the first step.
       - checkout
-      - node/install:
-          install-yarn: false
-          node-version: "16.13.0"
-      - run: npm install
-      - *ruby_dependencies
-      - *gradlew_permission
-      - *fastlane_dependencies
+      - run:
+          command: bundle update fastlane && gem install bundler && bundle install
+      - run:
+        name: "Install Firebase CLI"
+        command: | 
+          curl -sL firebase.tools | bash
 #      - *fastlane_env
 ##      - *restore_gradle_cache
 ##      - *restore_gems_cache
@@ -130,7 +126,7 @@ jobs:
 #      - *decode_build_staging_credential
       - run:
           name: Deploy latest Staging build to Firebase App Distribution
-          command: bundle exec fastlane buildAndUploadToFirebaseDistribute
+          command: bundle exec fastlane buildOnToCircleCI firebase_token:$FIREBASE_TOKEN
           no_output_timeout: 60m
 
 # Invoke jobs via workflows

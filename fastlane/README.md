@@ -23,14 +23,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Runs all the tests
 
-### android cleanBuild
-
-```sh
-[bundle exec] fastlane android cleanBuild
-```
-
-clean build
-
 ### android buildAndUploadToFirebaseDistribute
 
 ```sh
@@ -46,6 +38,14 @@ Submit a new Beta Build to Crashlytics Beta
 ```
 
 Deploy to distribute application
+
+### android buildOnToCircleCI
+
+```sh
+[bundle exec] fastlane android buildOnToCircleCI
+```
+
+Submit a new Beta Build to Crashlytics Beta
 
 ----
 

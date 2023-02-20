@@ -41,4 +41,16 @@ platform :android do
           )
       end
 
+  desc "Submit a new Beta Build to Crashlytics Beta"
+    lane :buildOnToCircleCI do |options|
+      buildBuild
+      release = firebase_app_distribution(
+                    app: "1:174866293063:android:0419baf7d8a02a04616c62",
+                    testers: "hienle.developer@gmail.com",
+                    release_notes: "Lots of amazing new features to test out!",
+                    firebase_cli_token: "#{options[:firebase_token]}",
+                    release_notes_file: "fastlane/release_notes.txt"
+                )
+    end
+
 end
