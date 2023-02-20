@@ -20,12 +20,12 @@ references:
   android_config: &android_config
     working_directory: *workspace
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:19.0.2-jdk
     environment:
       TZ: "Asia/Ho_Chi_Minh"
       # Customize the JVM maximum heap limit
       MAVEN_OPTS: -Xmx4096m
-      JAVA_HOME: /usr/lib/jvm/jdk1.8.0/
+      JAVA_HOME: /usr/lib/jvm/jdk19.0.2/
 
   java_version: &java_version
     name: "Report Java JDK Version being used"
