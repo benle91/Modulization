@@ -137,7 +137,8 @@ jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   staging_distribution:
     <<: *config_android
-
+    docker:
+      - image: 'cimg/base:stable'
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
