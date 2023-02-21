@@ -89,6 +89,7 @@ references:
 
     environment:
       JVM_OPTS: -Xmx3200m
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64/jre
 
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE GRADLE
@@ -127,6 +128,7 @@ jobs:
       - *restore_gradle_cache
       - *save_gradle_cache
       - *android_dependencies
+      - run: sudo apt-get install gradle-2.6
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
       - run: yes | sdkmanager "build-tools;26.0.2" || exit 0
