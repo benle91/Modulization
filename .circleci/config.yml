@@ -127,7 +127,8 @@ jobs:
       - *restore_gradle_cache
       - *save_gradle_cache
       - *android_dependencies
-      - run: yes | sdkmanager --licenses && sdkmanager --update
+      - run: yes | sdkmanager --licenses || exit 0
+      - run: yes | sdkmanager --update || exit 0
       - run: ./gradlew assembleDebug
 
 # Invoke jobs via workflows
