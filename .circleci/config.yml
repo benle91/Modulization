@@ -126,7 +126,6 @@ jobs:
       - checkout
       - run: sudo chmod +x ./gradlew
       - *restore_gradle_cache
-      - run: sudo apt-get install gradle-2.6
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
       - run: yes | sdkmanager "build-tools;26.0.2" || exit 0
