@@ -139,8 +139,9 @@ jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   staging_distribution:
     <<: *config_android
-    docker:
-      - image: 'cimg/base:stable'
+    executor:
+      name: android/android-machine
+      resource-class: large
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
@@ -160,10 +161,10 @@ jobs:
       - run: bundle update fastlane
       - *save_gradle_cache
       - *save_gems_cache
-      - run: echo $JAVA_HOME
-#      - run:
-#          name: Run instrumentation tests in Firebase Test Lab
-#          command: bundle exec fastlane buildBuild
+#      - run: echo $JAVA_HOME
+      - run:
+          name: Run instrumentation tests in Firebase Test Lab
+          command: bundle exec fastlane buildBuild
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
