@@ -85,10 +85,13 @@ references:
   config_android: &config_android
     working_directory: ~/Modulization
     docker:
-      - image: ccistaging/android:api-30
+      - image: circleci/android:api-26-alpha
 
     environment:
       JVM_OPTS: -Xmx3200m
+    dependencies:
+      override:
+        - echo y | android update sdk --no-ui --all --filter build-tools-26.0.2,android-26
 
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE GRADLE
@@ -127,6 +130,7 @@ jobs:
       - *restore_gradle_cache
       - *save_gradle_cache
       - *android_dependencies
+      - run: sdkmanager --licenses
       - run: ./gradlew assembleDebug
 
 # Invoke jobs via workflows
