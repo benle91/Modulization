@@ -160,7 +160,7 @@ jobs:
       - run: bundle update fastlane
       - *save_gradle_cache
       - *save_gems_cache
-      - run: ls /usr/lib/jvm/java-8-openjdk-amd64 -lart
+      - run: ls /usr/lib/jvm/* -lart
       - run: echo $JAVA_HOME
 #      - run:
 #          name: Run instrumentation tests in Firebase Test Lab
