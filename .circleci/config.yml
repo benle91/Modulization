@@ -155,7 +155,7 @@ jobs:
       - *restore_gems_cache
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
-      - run: yes | sdkmanager "platforms;android-33;build-tools;30.0.3" || exit 0
+      - run: yes | sdkmanager "platforms;android-33" || exit 0
       - run: bundle install
       - run: bundle clean --force
       - run: bundle update fastlane
