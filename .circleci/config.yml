@@ -151,6 +151,8 @@ jobs:
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
       - run: yes | sdkmanager "build-tools;26.0.2" || exit 0
+      - run: bundle install
+      - run: bundle clean --force
       - *ruby_dependencies
       - *save_gradle_cache
       - *save_gems_cache
