@@ -161,6 +161,7 @@ jobs:
       - *save_gradle_cache
       - *save_gems_cache
 #      - run: echo $JAVA_HOME
+      - run: echo yes | android update sdk --no-ui --all --filter build-tools-30.0.3
       - run:
           name: Run instrumentation tests in Firebase Test Lab
           command: bundle exec fastlane buildBuild
