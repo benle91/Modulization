@@ -88,7 +88,10 @@ references:
       - image: circleci/android:api-26-alpha
 
     environment:
-      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+      _JAVA_OPTIONS: "-Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m"'
+      JAVA_HOME: $(readlink -f $(which java) | sed "s:/bin/java::")
 
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE GRADLE
@@ -143,7 +146,6 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run: export JAVA_HOME=$(readlink -f $(which java) | sed "s:/bin/java::")
       - ruby/install:
           version: '3.0.1'
       - *ruby_dependencies
