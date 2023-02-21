@@ -162,10 +162,10 @@ jobs:
       - *save_gems_cache
 #      - run: echo $JAVA_HOME
       - run: ./gradlew wrapper
-      - run: echo yes | android update sdk --no-ui --all --filter build-tools-30.0.3
-      - run:
-          name: Run instrumentation tests in Firebase Test Lab
-          command: bundle exec fastlane buildBuild
+      - run: android list sdk --all --extended
+#      - run:
+#          name: Run instrumentation tests in Firebase Test Lab
+#          command: bundle exec fastlane buildBuild
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
