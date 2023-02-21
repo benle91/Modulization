@@ -144,7 +144,8 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - ruby/install-deps
+      - ruby/install:
+          version: '2.7'
       - run: sudo chmod +x ./gradlew
       - *restore_gradle_cache
       - *restore_gems_cache
