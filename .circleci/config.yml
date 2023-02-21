@@ -145,7 +145,8 @@ jobs:
       # Checkout the code as the first step.
       - checkout
       - ruby/install:
-          version: '2.7'
+          version: '3.0.1'
+      - *ruby_dependencies
       - run: sudo chmod +x ./gradlew
       - *restore_gradle_cache
       - *restore_gems_cache
@@ -154,7 +155,7 @@ jobs:
       - run: yes | sdkmanager "build-tools;26.0.2" || exit 0
       - run: bundle install
       - run: bundle clean --force
-      - *ruby_dependencies
+
       - *save_gradle_cache
       - *save_gems_cache
       - run: echo $JAVA_HOME
