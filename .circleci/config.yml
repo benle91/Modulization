@@ -130,7 +130,6 @@ jobs:
       - run: yes | sdkmanager --update || exit 0
       - run: yes | sdkmanager "build-tools;26.0.2" || exit 0
       - *save_gradle_cache
-      - *android_dependencies
       - run: ./gradlew assembleDebug
 
 # Invoke jobs via workflows
