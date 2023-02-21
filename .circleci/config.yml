@@ -113,6 +113,25 @@ references:
       name: Download Android Dependencies
       command: ./gradlew androidDependencies
 
+  # ---------------------------------------------------------------------------------------------------------------------
+  # CACHE RUBY FOR FASTLANE
+  # ---------------------------------------------------------------------------------------------------------------------
+  restore_gems_cache: &restore_gems_cache
+    restore_cache:
+      key: gems-{{ checksum "fastlane/release_notes.txt" }}
+
+  save_gems_cache: &save_gems_cache
+    save_cache:
+      paths:
+        - vendor/bundle
+      key: gems-{{ checksum "fastlane/release_notes.txt" }}
+
+  ruby_dependencies: &ruby_dependencies
+    run:
+      name: Download Ruby Dependencies
+      command: |
+        gem install bundler
+        bundle check || bundle update --system || bundle install --path vendor/bundle
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
@@ -126,11 +145,17 @@ jobs:
       - checkout
       - run: sudo chmod +x ./gradlew
       - *restore_gradle_cache
+      - *restore_gems_cache
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
       - run: yes | sdkmanager "build-tools;26.0.2" || exit 0
+      - *ruby_dependencies
       - *save_gradle_cache
-      - run: ./gradlew assembleDebug
+      - *save_gems_cache
+      - run: echo $JAVA_HOME
+      - run:
+          name: Run instrumentation tests in Firebase Test Lab
+          command: bundle exec fastlane buildBuild
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
