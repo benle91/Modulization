@@ -89,7 +89,6 @@ references:
 
     environment:
       JVM_OPTS: -Xmx3200m
-      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64/jre
 
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE GRADLE
@@ -144,6 +143,7 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
+      - run: export JAVA_HOME=$(readlink -f $(which java) | sed "s:/bin/java::")
       - ruby/install:
           version: '3.0.1'
       - *ruby_dependencies
@@ -155,7 +155,7 @@ jobs:
       - run: yes | sdkmanager "build-tools;26.0.2" || exit 0
       - run: bundle install
       - run: bundle clean --force
-
+      - run: bundle update fastlane
       - *save_gradle_cache
       - *save_gems_cache
       - run: echo $JAVA_HOME
