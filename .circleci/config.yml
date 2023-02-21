@@ -138,8 +138,7 @@ references:
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   staging_distribution:
-    docker:
-      - image: circleci/android:api-30
+
     executor:
       name: android/android-machine
       tag: 2021.10.1
@@ -156,8 +155,7 @@ jobs:
       - *restore_gems_cache
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
-      - run: yes | sdkmanager "build-tools;30.0.3" || exit 0
-      - run: yes | sdkmanager "platform-tools;android-33" || exit 0
+      - run: yes | sdkmanager "tools;platform-tools;build-tools;30.0.3" || exit 0
       - run: bundle install
       - run: bundle clean --force
       - run: bundle update fastlane
