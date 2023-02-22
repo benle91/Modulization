@@ -1,82 +1,114 @@
 #version: 2.1
 #
+## Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+## See: https://circleci.com/docs/2.0/orb-intro/
 #orbs:
-#  android: circleci/android@2.1.2
-#
+#  ruby: circleci/ruby@2.0.0
+#  android: circleci/android@2.0
+## Define a job to be invoked later in a workflow.
+## See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 #references:
-#  cache_key: &cache_key
-#    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
 #
+#  # Docker Image Configs
 #  config_android: &config_android
 #    working_directory: ~/Modulization
 #    docker:
-#      - image: circleci/android:api-30
+#      - image: circleci/android:api-26-alpha
 #
 #    environment:
-#      JVM_OPTS: -Xmx3200m
+#      TERM: dumb
+#      _JAVA_OPTIONS: "-Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+#      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m"'
+#      JAVA_HOME: $(readlink -f $(which java) | sed "s:/bin/java::")
 #
 #  # ---------------------------------------------------------------------------------------------------------------------
-#  # Chmod Permission Gradlew
+#  # CACHE GRADLE
 #  # ---------------------------------------------------------------------------------------------------------------------
-#  gradlew_permission: &gradlew_permission
+#  restore_gradle_cache: &restore_gradle_cache
+#    restore_cache:
+#      key: jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
+#
+#  save_gradle_cache: &save_gradle_cache
+#    save_cache:
+#      paths:
+#        - ~/.gradle
+#        - ~/.m2
+#      key: jars-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
+#
+#  # ---------------------------------------------------------------------------------------------------------------------
+#  # DOWNLOAD ANDROID DEPENDENCIES
+#  # ---------------------------------------------------------------------------------------------------------------------
+#  android_dependencies: &android_dependencies
 #    run:
-#      name: chmod permissions
-#      command: chmod +x ./gradlew
+#      name: Download Android Dependencies
+#      command: ./gradlew androidDependencies
 #
-#  build_test: &build_test
-#    executor:
-#      name: android/android-machine
-#    steps:
-#      - checkout
-#      - *gradlew_permission
-#      - run:
-#          name: Download Dependencies
-#          command: ./gradlew androidDependencies
+#  # ---------------------------------------------------------------------------------------------------------------------
+#  # CACHE RUBY FOR FASTLANE
+#  # ---------------------------------------------------------------------------------------------------------------------
+#  restore_gems_cache: &restore_gems_cache
+#    restore_cache:
+#      key: gems-{{ checksum "fastlane/release_notes.txt" }}
 #
-#      - run:
-#          name: Build app
-#          command: ./gradlew build
+#  save_gems_cache: &save_gems_cache
+#    save_cache:
+#      paths:
+#        - vendor/bundle
+#      key: gems-{{ checksum "fastlane/release_notes.txt" }}
 #
-#  deploy_debug_to_firebase: &deploy_debug_to_firebase
-#    <<: *config_android
-#    steps:
-#      - checkout
-#      - run:
-#          name: Build debug
-#          command: ./gradlew :app:assembleDebug
-#
-#      - run:
-#          name: Install Firebase CLI
-#          command: |
-#            curl -sL https://firebase.tools | bash
-#
-##    - run:
-##        name: Upload File APK Debug to Firebase App Distribution
-##        command: firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app $FIREBASE_APP_ID --token $FIREBASE_TOKEN_CLI --release-notes "Upload APK to Firebase"
+#  ruby_dependencies: &ruby_dependencies
+#    run:
+#      name: Download Ruby Dependencies
+#      command: |
+#        gem install bundler
+#        bundle check || bundle update --system || bundle install --path vendor/bundle
 #
 #jobs:
-#  build_test:
-#    <<: *build_test
+#  # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
+#  staging_distribution:
 #
-#  deploy_debug_to_firebase:
-#    <<: *deploy_debug_to_firebase
+#    executor:
+#      name: android/android-docker
+#      tag: "2022.0.7"
+#    # Add steps to the job
+#    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+#    steps:
+#      # Checkout the code as the first step.
+#      - checkout
+#      - ruby/install:
+#          version: '3.0.1'
+#      - *ruby_dependencies
+#      - run: sudo chmod +x ./gradlew
+#      - *restore_gradle_cache
+#      - *restore_gems_cache
+#      - run: yes | sdkmanager --licenses || exit 0
+#      - run: yes | sdkmanager --update || exit 0
+#      - run: yes | sdkmanager "platforms;android-33" || exit 0
+#      - run: bundle install
+#      - run: bundle clean --force
+#      - run: bundle update fastlane
+#      - *save_gradle_cache
+#      - *save_gems_cache
+##      - run: echo $JAVA_HOME
+#      - run:
+#          name: Run instrumentation tests in Firebase Test Lab
+#          command: bundle exec fastlane buildBuild
 #
+## Invoke jobs via workflows
+## See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 #workflows:
-#  version: 1
-#  build_test_and_deploy:
+#  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+#    # Inside the workflow, you define the jobs you want to run.
 #    jobs:
-#      - build_test
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
-# For a detailed guide to building and testing on Android, read the docs:
-# https://circleci.com/docs/2.0/language-android/ for more details.
+#      - staging_distribution
+
 version: 2.1
 
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 # See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
-  ruby: circleci/ruby@2.0.0
-  android: circleci/android@2.0
+  android: circleci/android@2.1.2
+  node: circleci/node@5.0.2
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 references:
@@ -139,32 +171,20 @@ jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   staging_distribution:
 
-    executor:
-      name: android/android-machine
-      tag: 2021.10.1
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    docker:
+      - image: cimg/android:2022.07
+    resource_class: large
     steps:
       # Checkout the code as the first step.
       - checkout
-      - ruby/install:
-          version: '3.0.1'
-      - *ruby_dependencies
-      - run: sudo chmod +x ./gradlew
-      - *restore_gradle_cache
-      - *restore_gems_cache
-      - run: yes | sdkmanager --licenses || exit 0
-      - run: yes | sdkmanager --update || exit 0
-      - run: yes | sdkmanager "platforms;android-33" || exit 0
-      - run: bundle install
-      - run: bundle clean --force
-      - run: bundle update fastlane
-      - *save_gradle_cache
-      - *save_gems_cache
-#      - run: echo $JAVA_HOME
-      - run:
-          name: Run instrumentation tests in Firebase Test Lab
-          command: bundle exec fastlane buildBuild
+      - node/install:
+          install-yarn: false
+          node-version: "16.13.0"
+      - run: npm install
+      #      - run: echo $JAVA_HOME
+      - android/fastlane-deploy:
+          working-directory: android
+          lane-name: buildBuild
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
