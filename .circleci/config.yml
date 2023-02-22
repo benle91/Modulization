@@ -176,8 +176,8 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run: fastlane fastlane-plugin-firebase_app_distribution
-      - run: fastlane-plugin-increment_version_code
+      - run: fastlane add_plugin fastlane-plugin-firebase_app_distribution
+      - run: fastlane add_plugin -plugin-increment_version_code
       - run: sudo chmod +x ./gradlew
       - run: fastlane buildBuild
 
