@@ -202,6 +202,7 @@ workflows:
                 - staging
                 - develop
                 - /fix\/.*/
+                - master
       - staging_distribution:
           requires:
             - SUBMIT_STAGING
