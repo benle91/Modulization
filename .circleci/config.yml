@@ -105,6 +105,7 @@ jobs:
         name: Install Firebase CLI
         command: |
           curl -sL https://firebase.tools | bash
+
       - run:
         name: Upload File APK Debug to Firebase App Distribution
         command: firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app $FIREBASE_APP_ID --token $FIREBASE_TOKEN --release-notes "Upload APK to Firebase"
