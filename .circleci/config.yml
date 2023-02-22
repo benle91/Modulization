@@ -100,9 +100,9 @@ jobs:
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
       - run: yes | sdkmanager "platforms;android-33" || exit 0
-      - run:
-          name: bundler install
-          command: gem install bundler
+      - run: bundle install
+      - run: bundle clean --force
+      #- run: bundle update fastlane
       - run:
           name: Run instrumentation tests in Firebase Test Lab
           command: bundle exec fastlane buildBuild
