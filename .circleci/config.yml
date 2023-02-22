@@ -69,43 +69,39 @@ references:
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
-#  staging_distribution:
-#    <<: *config_android
-#    docker:
-#      - image: 'cimg/base:stable'
-#    steps:
-#      # Checkout the code as the first step.
-#      - checkout
-#      - ruby/install:
-#          version: '2.7'
-#      - *restore_gradle_cache
-#      - *restore_gems_cache
-#      - run:
-#          name: bundler install
-#          command: gem install bundler
-#      - run: sudo chmod +x ./gradlew
-#      - *ruby_dependencies
-#      - *save_gradle_cache
-#      - *save_gems_cache
-#
-#      - run: ./gradlew assembleDebug
   staging_distribution:
-    machine:
-      image: ubuntu-2004:202010-01
+    <<: *config_android
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      # Checkout the code as the first step.
+      - checkout
+      - ruby/install:
+          version: '2.7'
+      - *restore_gradle_cache
+      - *restore_gems_cache
+      - run:
+          name: bundler install
+          command: gem install bundler
+      - run: sudo chmod +x ./gradlew
+      - *ruby_dependencies
+      - *save_gradle_cache
+      - *save_gems_cache
+
+      - run: ./gradlew assembleDebug
+
+  build:
+    docker:
+      - image: cimg/android:2021.08.1
     steps:
       - checkout
-      - run:
-          name: Installing AWS CLI
-          command: |
-            sudo apt-get update
-            sudo apt install python3-pip
-            sudo pip3 install awsebcli --upgrade
-      - run: cd ./app && npm install && npm run build
-
+      - run: sudo chmod +x ./gradlew
+      - run: ./gradlew androidDependencies
+      - run: ./gradlew lint test
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   version: 2
   workflow:
     jobs:
-      - staging_distribution
+      - build
