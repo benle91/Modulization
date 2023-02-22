@@ -194,6 +194,7 @@ jobs:
       - run:
           name: ls
           command: ls /usr/lib/jvm/*
+
 #      - run: ./gradlew assembleDebug
 
 # Invoke jobs via workflows
