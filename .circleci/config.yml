@@ -176,10 +176,8 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run: fastlane add_plugin fastlane-plugin-firebase_app_distribution
-      - run: fastlane add_plugin -plugin-increment_version_code
       - run: sudo chmod +x ./gradlew
-      - run: fastlane buildBuild
+      - run: ./gradlew assembleDebug
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
