@@ -186,7 +186,6 @@ jobs:
           name: bundler install
           command: gem install bundler
       - run: sudo chmod +x ./gradlew
-      - *android_dependencies
       - *ruby_dependencies
       - *save_gradle_cache
       - *save_gems_cache
