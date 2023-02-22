@@ -182,9 +182,7 @@ jobs:
           node-version: "16.13.0"
       - run: npm install
       #      - run: echo $JAVA_HOME
-      - android/fastlane-deploy:
-          working-directory: android
-          lane-name: buildBuild
+      - run: fastlane buildBuild
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
