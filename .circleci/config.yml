@@ -126,6 +126,7 @@ references:
       JVM_OPTS: -Xmx3048m
       GRADLE_OPTS: -Xmx3048m -Dkotlin.compiler.execution.strategy=in-process -XX:MaxMetaspaceSize=256m -XX:+HeapDumpOnOutOfMemoryError
       TERM: dumb
+      JAVA_HOME: /usr/lib/jvm
       ANDROID_HOME: /usr/local/android-sdk-linux
 
   # ---------------------------------------------------------------------------------------------------------------------
@@ -190,7 +191,10 @@ jobs:
       - *ruby_dependencies
       - *save_gradle_cache
       - *save_gems_cache
-      - run: ./gradlew assembleDebug
+      - run:
+          name: ls
+          command: ls /usr/lib/jvm/*
+#      - run: ./gradlew assembleDebug
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
