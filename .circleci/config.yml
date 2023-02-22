@@ -109,6 +109,7 @@ version: 2.1
 orbs:
   android: circleci/android@2.1.2
   node: circleci/node@5.0.2
+  docker: circleci/docker@2.2.0
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 references:
@@ -176,10 +177,6 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - node/install:
-          install-yarn: false
-          node-version: "16.13.0"
-      #      - run: echo $JAVA_HOME
       - run: fastlane buildBuild
 
 # Invoke jobs via workflows
