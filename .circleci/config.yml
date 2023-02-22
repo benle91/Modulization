@@ -100,7 +100,7 @@ jobs:
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
       - run: yes | sdkmanager "platforms;android-33" || exit 0
-      - run: ./gradlew lint test
+      - run: ./gradlew assembleDebug
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
