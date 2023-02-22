@@ -29,6 +29,7 @@ android {
         }
     }
 
+
     buildTypes {
         named(AppConfig.BuildTypes.release) {
             isMinifyEnabled = true
