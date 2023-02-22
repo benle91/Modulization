@@ -185,7 +185,9 @@ jobs:
       - run:
           name: bundler install
           command: gem install bundler
-      - run: bundle clean --force
+      - run:
+          name: bundler clean
+          command: gem clean bundler --force
       - run: sudo chmod +x ./gradlew
       - *android_dependencies
       - *ruby_dependencies
