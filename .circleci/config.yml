@@ -171,8 +171,9 @@ references:
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   staging_distribution:
-    docker:
-      - image: cimg/android:2023.02
+    executor:
+      name: android/android-docker
+      tag: "2022.0.7"
     steps:
       # Checkout the code as the first step.
       - checkout
