@@ -177,7 +177,9 @@ jobs:
       - checkout
       - *restore_gradle_cache
       - *restore_gems_cache
-      - run: bundle install
+      - run:
+          name: bundler install
+          command: gem install bundler
       - run: bundle clean --force
       - run: sudo chmod +x ./gradlew
       - *android_dependencies
