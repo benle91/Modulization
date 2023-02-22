@@ -20,14 +20,14 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        named(AppConfig.BuildTypes.debug) {
-            keyAlias = AppConfig.SigningConfigsDebug.keyAlias
-            keyPassword = AppConfig.SigningConfigsDebug.keyPassword
-            storeFile = rootProject.file(AppConfig.SigningConfigsDebug.storeFile)
-            storePassword = AppConfig.SigningConfigsDebug.storePassword
-        }
-    }
+//    signingConfigs {
+//        named(AppConfig.BuildTypes.debug) {
+//            keyAlias = AppConfig.SigningConfigsDebug.keyAlias
+//            keyPassword = AppConfig.SigningConfigsDebug.keyPassword
+//            storeFile = rootProject.file(AppConfig.SigningConfigsDebug.storeFile)
+//            storePassword = AppConfig.SigningConfigsDebug.storePassword
+//        }
+//    }
 
     buildTypes {
         named(AppConfig.BuildTypes.release) {
@@ -40,7 +40,7 @@ android {
             )
         }
         named(AppConfig.BuildTypes.debug) {
-            signingConfig = signingConfigs.getByName(AppConfig.BuildTypes.debug)
+            //signingConfig = signingConfigs.getByName(AppConfig.BuildTypes.debug)
             isMinifyEnabled = false
         }
     }
