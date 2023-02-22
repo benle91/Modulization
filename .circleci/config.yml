@@ -119,7 +119,7 @@ references:
     working_directory: ~/Modulization
     docker:
       - image: circleci/android:api-26-alpha
-
+    resource_class: large
     environment:
       TERM: dumb
       _JAVA_OPTIONS: "-Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
@@ -171,13 +171,19 @@ references:
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   staging_distribution:
-    executor:
-      name: android/android-docker
-      tag: "2022.0.7"
+    <<: *config_android
     steps:
       # Checkout the code as the first step.
       - checkout
+      - *restore_gradle_cache
+      - *restore_gems_cache
+      - *android_dependencies
+      - run: bundle install
+      - run: bundle clean --force
       - run: sudo chmod +x ./gradlew
+      - *ruby_dependencies
+      - *save_gradle_cache
+      - *save_gems_cache
       - run: ./gradlew assembleDebug
 
 # Invoke jobs via workflows
@@ -186,4 +192,16 @@ workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - staging_distribution
+      - SUBMIT_STAGING:
+          type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
+          filters:
+            branches:
+              only:
+                - /feature\/.*/
+                - /release.*/
+                - staging
+                - develop
+                - /fix\/.*/
+      - staging_distribution:
+          requires:
+            - SUBMIT_STAGING
