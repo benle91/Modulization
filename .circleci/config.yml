@@ -100,8 +100,11 @@ jobs:
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
       - run: yes | sdkmanager "platforms;android-33" || exit 0
-      - run: bundle install
-      - run: bundle clean --force
+      - run:
+          name: Install Bundler
+          command: |
+            sudo apt update
+            sudo apt install bundler
       #- run: bundle update fastlane
       - run:
           name: Run instrumentation tests in Firebase Test Lab
