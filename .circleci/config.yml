@@ -170,17 +170,15 @@ references:
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   staging_distribution:
-
-    docker:
-      - image: cimg/android:2022.07
-    resource_class: large
+    executor:
+      name: android/android-docker
+      tag: "2022.0.7"
     steps:
       # Checkout the code as the first step.
       - checkout
       - node/install:
           install-yarn: false
           node-version: "16.13.0"
-      - run: npm install
       #      - run: echo $JAVA_HOME
       - run: fastlane buildBuild
 
