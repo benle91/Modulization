@@ -177,10 +177,10 @@ jobs:
       - checkout
       - *restore_gradle_cache
       - *restore_gems_cache
-      - *android_dependencies
       - run: bundle install
       - run: bundle clean --force
       - run: sudo chmod +x ./gradlew
+      - *android_dependencies
       - *ruby_dependencies
       - *save_gradle_cache
       - *save_gems_cache
@@ -192,17 +192,4 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - SUBMIT_STAGING:
-          type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
-          filters:
-            branches:
-              only:
-                - /feature\/.*/
-                - /release.*/
-                - staging
-                - develop
-                - /fix\/.*/
-                - master
-      - staging_distribution:
-          requires:
-            - SUBMIT_STAGING
+      - staging_distribution
