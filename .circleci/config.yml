@@ -126,6 +126,7 @@ references:
       JVM_OPTS: -Xmx3048m
       GRADLE_OPTS: -Xmx3048m -Dkotlin.compiler.execution.strategy=in-process -XX:MaxMetaspaceSize=256m -XX:+HeapDumpOnOutOfMemoryError
       TERM: dumb
+      ANDROID_HOME: /usr/local/android-sdk-linux
 
   # ---------------------------------------------------------------------------------------------------------------------
   # CACHE GRADLE
