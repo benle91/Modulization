@@ -47,9 +47,9 @@ platform :android do
       release = firebase_app_distribution(
                     app: "#{options[:firebase_app_id]}",
                     testers: "hienle.developer@gmail.com",
-                    release_notes: "Lots of amazing new features to test out!",
                     firebase_cli_token: "#{options[:firebase_token]}",
-                    release_notes_file: "fastlane/release_notes.txt"
+                    release_notes_file: "fastlane/release_notes.txt",
+                    groups: "qc"
                 )
     end
 
