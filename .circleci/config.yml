@@ -63,7 +63,6 @@ jobs:
     steps:
       - checkout
       - run: sudo chmod +x ./gradlew
-      #- run: ./gradlew androidDependencies
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
       - run: yes | sdkmanager "platforms;android-33" || exit 0
@@ -74,6 +73,7 @@ jobs:
       - run: bundle install
       - run: bundle clean --force
       - run: bundle update fastlane
+      - run: ./gradlew androidDependencies
       - *save_gradle_cache
       - *save_gems_cache
       - *create_keystore_properties
