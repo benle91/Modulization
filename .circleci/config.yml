@@ -95,7 +95,7 @@ jobs:
       - image: cimg/android:2021.08.1
     steps:
       - checkout
-      #- run: sudo chmod +x ./gradlew
+      - run: sudo chmod +x ./gradlew
       #- run: ./gradlew androidDependencies
       - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
