@@ -73,10 +73,10 @@ jobs:
       - run: bundle install
       - run: bundle clean --force
       - run: bundle update fastlane
-      - run: ./gradlew androidDependencies
+      - *create_keystore_properties
       - *save_gradle_cache
       - *save_gems_cache
-      - *create_keystore_properties
+      - run: ./gradlew androidDependencies
       - run:
           name: Run instrumentation tests in Firebase Test Lab
           command: bundle exec fastlane buildOnToCircleCI firebase_app_id:$FIREBASE_APP_ID firebase_token:$FIREBASE_TOKEN
