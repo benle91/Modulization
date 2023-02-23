@@ -45,7 +45,7 @@ platform :android do
     lane :buildOnToCircleCI do |options|
       buildBuild
       release = firebase_app_distribution(
-                    app: "1:174866293063:android:0419baf7d8a02a04616c62",
+                    app: "#{options[:firebase_app_id]}",
                     testers: "hienle.developer@gmail.com",
                     release_notes: "Lots of amazing new features to test out!",
                     firebase_cli_token: "#{options[:firebase_token]}",
