@@ -51,7 +51,7 @@ references:
       key: gems-{{ checksum "fastlane/release_notes.txt" }}
 
 jobs:
-  build:
+  staging_distribution:
     <<: *config_android
     steps:
       - checkout
@@ -79,4 +79,17 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - build
+      - SUBMIT_STAGING:
+          type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
+          filters:
+            branches:
+              only:
+                - /feature\/.*/
+                - /release.*/
+                - staging
+                - develop
+                - /fix\/.*/
+                - master
+      - staging_distribution:
+          requires:
+            - SUBMIT_STAGING
