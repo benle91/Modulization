@@ -44,9 +44,7 @@ captures/
 .idea/libraries
 
 # Keystore files
-*.jks
 keystore.properties
-app/catfood/*
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild

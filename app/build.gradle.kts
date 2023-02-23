@@ -1,3 +1,4 @@
+import java.util.*
 plugins {
     id(AppConfig.PluginsDependencies.androidApplication)
     id(AppConfig.PluginsDependencies.kotlinAndroid)
@@ -5,7 +6,10 @@ plugins {
     id(AppConfig.PluginsDependencies.paranoid)
     id(AppConfig.PluginsDependencies.googleServices)
 }
-println("This is executed during the configuration phase.")
+
+val keystoreProperties = Properties().apply {
+    load(rootProject.file("keystore.properties").reader())
+}
 
 android {
     compileSdkVersion(AppConfig.compileSdk)
@@ -20,14 +24,14 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-//    signingConfigs {
-//        named(AppConfig.BuildTypes.debug) {
-//            keyAlias = AppConfig.SigningConfigsDebug.keyAlias
-//            keyPassword = AppConfig.SigningConfigsDebug.keyPassword
-//            storeFile = rootProject.file(AppConfig.SigningConfigsDebug.storeFile)
-//            storePassword = AppConfig.SigningConfigsDebug.storePassword
-//        }
-//    }
+    signingConfigs {
+        named(AppConfig.BuildTypes.debug) {
+            keyAlias = keystoreProperties[AppConfig.SigningConfigsDebug.keyAlias] as String
+            keyPassword = keystoreProperties[AppConfig.SigningConfigsDebug.keyPassword] as String
+            storeFile = rootProject.file(keystoreProperties[AppConfig.SigningConfigsDebug.storeFile] as String)
+            storePassword = keystoreProperties[AppConfig.SigningConfigsDebug.storePassword] as String
+        }
+    }
 
 
     buildTypes {
@@ -41,7 +45,7 @@ android {
             )
         }
         named(AppConfig.BuildTypes.debug) {
-            //signingConfig = signingConfigs.getByName(AppConfig.BuildTypes.debug)
+            signingConfig = signingConfigs.getByName(AppConfig.BuildTypes.debug)
             isMinifyEnabled = false
         }
     }

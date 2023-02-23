@@ -45,17 +45,17 @@ object AppConfig {
     }
 
     object SigningConfigsDebug {
-        const val keyAlias = "key_debug"
-        const val keyPassword = "123456"
-        const val storeFile = "debugKeyStore.jks"
-        const val storePassword = "123456"
+        const val keyAlias = "stagingKeyAlias"
+        const val keyPassword = "stagingKeyPassword"
+        const val storeFile = "stagingStoreFile"
+        const val storePassword = "stagingStorePassword"
     }
 
     object SigningConfigsRelease {
-        const val keyAlias = ""
-        const val keyPassword = ""
-        const val storeFile = ""
-        const val storePassword = ""
+        const val keyAlias = "keyAlias"
+        const val keyPassword = "keyPassword"
+        const val storeFile = "storeFile"
+        const val storePassword = "storePassword"
     }
 
 }

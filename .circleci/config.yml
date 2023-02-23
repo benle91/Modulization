@@ -50,6 +50,13 @@ references:
         - vendor/bundle
       key: gems-{{ checksum "fastlane/release_notes.txt" }}
 
+  create_keystore_properties: &create_keystore_properties
+    run:
+      name: Create keystore.properties
+      command: printf 'stagingKeyAlias=%s\nstagingKeyPassword=%s\nstagingStoreFile=%s\nstagingStorePassword=%s' \
+        $STAGING_KEY_ALIAS $STAGING_KEY_PASSWORD $STAGING_STORE_FILE $STAGING_STORE_PASSWORD > keystore.properties
+
+
 jobs:
   staging_distribution:
     <<: *config_android
@@ -69,6 +76,7 @@ jobs:
       - run: bundle update fastlane
       - *save_gradle_cache
       - *save_gems_cache
+      - *create_keystore_properties
       - run:
           name: Run instrumentation tests in Firebase Test Lab
           command: bundle exec fastlane buildOnToCircleCI firebase_app_id:$FIREBASE_APP_ID firebase_token:$FIREBASE_TOKEN
