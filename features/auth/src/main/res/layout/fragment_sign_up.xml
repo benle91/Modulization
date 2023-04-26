@@ -58,6 +58,7 @@
             android:background="@drawable/bg_edit_form"
             android:inputType="textCapWords"
             android:singleLine="true"
+            android:text="Hien"
             android:paddingHorizontal="@dimen/space_small"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -90,6 +91,7 @@
             android:background="@drawable/bg_edit_form"
             android:inputType="textCapWords"
             android:singleLine="true"
+            android:text="Le"
             android:paddingHorizontal="@dimen/space_small"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -122,6 +124,7 @@
             android:background="@drawable/bg_edit_form"
             android:inputType="textEmailAddress"
             android:singleLine="true"
+            android:text="hien+2@email.com"
             android:paddingHorizontal="@dimen/space_small"/>
 
         <androidx.appcompat.widget.AppCompatTextView

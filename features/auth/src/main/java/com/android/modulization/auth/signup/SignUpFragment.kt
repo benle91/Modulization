@@ -60,7 +60,7 @@ class SignUpFragment : BaseBindingFragment<FragmentSignUpBinding>() {
                         binding.tvErrorPassword.text = "The password must be between 6-18 characters."
                         View.VISIBLE
                     }
-                    FormFieldState.PASSWORD_NOT_ENOUGH_LENGTH -> {
+                    FormFieldState.PASSWORD_NOT_ENOUGH_STRENGTH -> {
                         binding.tvErrorPassword.text = "The password must contain at least one digit, one special character, and one letter."
                         View.VISIBLE
                     }
